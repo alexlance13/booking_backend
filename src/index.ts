@@ -1,10 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
-// Construct a schema, using GraphQL schema language
 const typeDefs = require('./typeDefs.ts');
-// Provide resolver functions for your schema fields
-
-const resolvers = require('./resolvers.ts');
+const resolvers = require('./resolvers/index.ts');
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
@@ -12,5 +10,5 @@ const app = express();
 server.applyMiddleware({ app });
 
 app.listen({ port: 4000 }, () =>
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+  console.log(`🚀 Server ready at ${process.env.HOST}${server.graphqlPath}`)
 );
