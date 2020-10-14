@@ -8,9 +8,11 @@ const schema = new mongoose.Schema(
     image: { type: String, required: true },
     price: { type: Number, required: true },
     roomsCount: { type: Number, required: true },
-    sellerId: ID,
+    seller: { type: ID, ref: 'User', autopopulate: true },
   },
   { versionKey: false }
 );
+
+schema.plugin(require('mongoose-autopopulate'));
 
 export default mongoose.model('Apartment', schema);

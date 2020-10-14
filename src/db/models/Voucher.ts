@@ -11,9 +11,11 @@ const schema = new mongoose.Schema(
     roomsCount: { type: Number, required: true },
     variant: { type: String, enum: ['RESTAURANT', 'CLUB', 'MUSEUM', 'CINEMA'] },
     quantity: { type: Number, required: true },
-    sellerId: ID,
+    seller: { type: ID, ref: 'User', autopopulate: true },
   },
   { versionKey: false }
 );
+
+schema.plugin(require('mongoose-autopopulate'));
 
 export default mongoose.model('Voucher', schema);

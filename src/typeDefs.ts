@@ -3,6 +3,15 @@ import { gql } from 'apollo-server-express';
 export default gql`
   type Mutation {
     createUser(user: UserInput): User!
+    getUserById(id: String!): User!
+    createApartment(apartment: ApartmentInput!): Apartment!
+    editApartment(id: String!, apartment: ApartmentInput!): Apartment!
+    deleteApartment(id: String!): Apartment!
+    createVoucher(voucher: VoucherInput!): Voucher!
+    editVoucher(id: String!, voucher: VoucherInput!): Voucher!
+    deleteVoucher(id: String!): Voucher!
+    createOrder(order: OrderInput!): Order!
+    createBooking(booking: BookingInput!): Booking!
   }
   type Query {
     getUserById(id: String): User!
@@ -10,6 +19,14 @@ export default gql`
     vouchers: [Voucher!]!
     bookings: [Booking!]!
     orders: [Order!]!
+    getApartmentById(id: String!): Apartment!
+    getAllApartments: [Apartment!]!
+    getVoucherById(id: String!): Voucher!
+    getAllVouchers: [Voucher!]!
+    getBookingById(id: String!): Booking!
+    getAllBookings: [Booking!]!
+    getOrderById(id: String!): Order!
+    getAllOrders: [Order!]!
   }
   type Apartment {
     seller: User!
@@ -21,12 +38,28 @@ export default gql`
     roomsCount: Int!
     bookings: [Booking!]!
   }
+  input ApartmentInput {
+    name: String!
+    description: String!
+    image: String!
+    price: Int!
+    roomsCount: Int!
+    seller: String!
+  }
   type Voucher {
     seller: User!
     name: String!
     description: String!
     image: String!
     _id: ID!
+    price: Int!
+    variant: Variant!
+    quantity: Int!
+  }
+  input VoucherInput {
+    name: String!
+    description: String!
+    image: String!
     price: Int!
     variant: Variant!
     quantity: Int!
@@ -40,6 +73,12 @@ export default gql`
   type Booking {
     apartment: Apartment!
     buyer: User!
+    dateStart: String!
+    dateEnd: String!
+  }
+  input BookingInput {
+    apartment: String!
+    buyer: String!
     dateStart: String!
     dateEnd: String!
   }
@@ -64,6 +103,11 @@ export default gql`
     _id: ID!
     voucher: Voucher!
     buyer: User!
+    quantity: Int!
+  }
+  input OrderInput {
+    voucher: String!
+    buyer: String!
     quantity: Int!
   }
 `;
