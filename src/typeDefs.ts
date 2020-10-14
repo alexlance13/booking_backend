@@ -1,29 +1,32 @@
-const { gql } = require('apollo-server-express');
+import { gql } from 'apollo-server-express';
 
-module.exports = gql`
+export default gql`
+  type Mutation {
+    createUser(user: UserInput): User!
+  }
   type Query {
-    hello: String
-    apartment: String
+    getUserById(id: String): User!
     apartments: [Apartment!]!
     vouchers: [Voucher!]!
     bookings: [Booking!]!
     orders: [Order!]!
   }
   type Apartment {
-    hello: String
+    seller: User!
     name: String!
     description: String!
     image: String!
-    id: ID!
+    _id: ID!
     price: Int!
     roomsCount: Int!
-    bookedDates: [String!]!
+    bookings: [Booking!]!
   }
   type Voucher {
+    seller: User!
     name: String!
     description: String!
     image: String!
-    id: ID!
+    _id: ID!
     price: Int!
     variant: Variant!
     quantity: Int!
@@ -36,18 +39,31 @@ module.exports = gql`
   }
   type Booking {
     apartment: Apartment!
-    buyer: Buyer!
-    dateRange: String!
+    buyer: User!
+    dateStart: String!
+    dateEnd: String!
   }
-  type Buyer {
-    id: ID!
+  type User {
+    _id: ID!
     first_name: String!
     last_name: String!
     email: String!
+    role: Role!
+  }
+  enum Role {
+    BUYER
+    SELLER
+  }
+  input UserInput {
+    first_name: String!
+    last_name: String!
+    email: String!
+    role: Role!
   }
   type Order {
-    id: ID!
+    _id: ID!
     voucher: Voucher!
-    buyer: Buyer!
+    buyer: User!
+    quantity: Int!
   }
 `;

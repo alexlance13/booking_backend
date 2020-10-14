@@ -1,11 +1,7 @@
-const helloResolver = require('./queries/hello.ts');
-const apartmentResolver = require('./queries/apartment.ts');
+import mutationResolvers from './mutations';
+import queryResolvers from './queries';
 
-const rootResolver = {
-  Query: {
-    ...apartmentResolver,
-    ...helloResolver,
-  },
+export default {
+  ...queryResolvers,
+  ...mutationResolvers,
 };
-
-module.exports = rootResolver;
