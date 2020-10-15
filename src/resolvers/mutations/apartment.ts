@@ -1,10 +1,7 @@
-import { models } from '../../db';
+import { create, edit, remove } from '../../services/apartment.service';
 
 export default {
-  createApartment: async (obj, args) =>
-    await models.apartment.create(args.apartment),
-  editApartment: async (obj, args) =>
-    await models.apartment.findByIdAndUpdate(args.id, args.apartment),
-  deleteApartment: async (obj, args) =>
-    await models.apartment.findByIdAndDelete(args.id),
+  createApartment: (obj, args) => create(args.apartment),
+  editApartment: (obj, args) => edit(args.id, args.apartment),
+  removeApartment: (obj, args) => remove(args.id),
 };

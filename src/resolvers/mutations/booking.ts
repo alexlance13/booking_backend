@@ -1,9 +1,5 @@
-import { models } from '../../db';
+import { create } from '../../services/booking.service';
 
 export default {
-  createBooking: async (obj, args) => {
-    const res = await models.booking.create(args.booking);
-    console.log(res);
-    return res;
-  },
+  createBooking: (obj, args) => create(args.booking),
 };

@@ -1,6 +1,6 @@
-import { models } from '../../db';
+import { getAll, getById } from '../../services/booking.service';
 
 export default {
-  getBookingById: async (obj, args) => await models.booking.findById(args.id),
-  getAllBookings: async () => await models.booking.find(),
+  getBookingById: (obj, args) => getById(args.id),
+  getAllBookings: () =>  getAll(),
 };

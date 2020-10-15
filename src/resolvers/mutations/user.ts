@@ -1,8 +1,5 @@
-import { models } from '../../db';
+import {create} from '../../services/user.service'
 
 export default {
-  createUser: async (obj, args) => {
-    const user = await models.user.create(args.user);
-    return user;
-  },
+  createUser: async (obj, args) => create(args.user)
 };

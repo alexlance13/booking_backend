@@ -1,9 +1,5 @@
-import { models } from '../../db';
+import { getById } from '../../services/user.service';
 
 export default {
-  getUserById: async (obj, args) => {
-    const user = await models.user.findById(args.id);
-    console.log(user, args);
-    return user;
-  },
+  getUserById: (obj, args) => getById(args.id)
 };

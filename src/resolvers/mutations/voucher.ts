@@ -1,9 +1,7 @@
-import { models } from '../../db';
+import { create, edit, remove } from '../../services/voucher.service';
 
 export default {
-  createVoucher: async (obj, args) => await models.voucher.create(args.voucher),
-  editVoucher: async (obj, args) =>
-    await models.voucher.findByIdAndUpdate(args.id, args.voucher),
-  deleteVoucher: async (obj, args) =>
-    await models.voucher.findByIdAndDelete(args.id),
+  createVoucher: (obj, args) => create(args.voucher),
+  editVoucher: (obj, args) => edit(args.id, args.voucher),
+  removeVoucher: (obj, args) => remove(args.id),
 };

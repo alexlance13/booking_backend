@@ -1,6 +1,6 @@
-import { models } from '../../db';
+import { getAll, getById } from '../../services/voucher.service';
 
 export default {
-  getVoucherById: async (obj, args) => await models.voucher.findById(args.id),
-  getAllVouchers: async () => await models.voucher.find(),
+  getVoucherById: (obj, args) => getById(args.id),
+  getAllVouchers: () =>  getAll(),
 };

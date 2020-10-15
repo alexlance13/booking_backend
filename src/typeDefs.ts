@@ -4,27 +4,30 @@ export default gql`
   type Mutation {
     createUser(user: UserInput): User!
     getUserById(id: String!): User!
+
     createApartment(apartment: ApartmentInput!): Apartment!
     editApartment(id: String!, apartment: ApartmentInput!): Apartment!
-    deleteApartment(id: String!): Apartment!
+    removeApartment(id: String!): Apartment!
+
     createVoucher(voucher: VoucherInput!): Voucher!
     editVoucher(id: String!, voucher: VoucherInput!): Voucher!
-    deleteVoucher(id: String!): Voucher!
+    removeVoucher(id: String!): Voucher!
+
     createOrder(order: OrderInput!): Order!
     createBooking(booking: BookingInput!): Booking!
   }
   type Query {
     getUserById(id: String): User!
-    apartments: [Apartment!]!
-    vouchers: [Voucher!]!
-    bookings: [Booking!]!
-    orders: [Order!]!
+
     getApartmentById(id: String!): Apartment!
     getAllApartments: [Apartment!]!
+
     getVoucherById(id: String!): Voucher!
     getAllVouchers: [Voucher!]!
+
     getBookingById(id: String!): Booking!
     getAllBookings: [Booking!]!
+
     getOrderById(id: String!): Order!
     getAllOrders: [Order!]!
   }
@@ -46,6 +49,7 @@ export default gql`
     roomsCount: Int!
     seller: String!
   }
+
   type Voucher {
     seller: User!
     name: String!
@@ -57,6 +61,7 @@ export default gql`
     quantity: Int!
   }
   input VoucherInput {
+    seller: String!
     name: String!
     description: String!
     image: String!
@@ -70,6 +75,7 @@ export default gql`
     MUSEUM
     CINEMA
   }
+
   type Booking {
     apartment: Apartment!
     buyer: User!
@@ -82,6 +88,7 @@ export default gql`
     dateStart: String!
     dateEnd: String!
   }
+
   type User {
     _id: ID!
     first_name: String!
@@ -99,6 +106,7 @@ export default gql`
     email: String!
     role: Role!
   }
+  
   type Order {
     _id: ID!
     voucher: Voucher!

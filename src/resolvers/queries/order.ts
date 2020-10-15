@@ -1,6 +1,6 @@
-import { models } from '../../db';
+import { getAll, getById } from '../../services/order.service';
 
 export default {
-  getOrderById: async (obj, args) => await models.order.findById(args.id),
-  getAllOrders: async () => await models.order.find(),
+  getOrderById: (obj, args) => getById(args.id),
+  getAllOrders: () =>  getAll(),
 };

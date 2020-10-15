@@ -1,5 +1,5 @@
-import { models } from '../../db';
+import { create } from '../../services/order.service';
 
 export default {
-  createOrder: async (obj, args) => await models.order.create(args.order),
+  createOrder: (obj, args) => create(args.order),
 };

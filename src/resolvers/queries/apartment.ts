@@ -1,7 +1,6 @@
-import { models } from '../../db';
+import { getAll, getById } from '../../services/apartment.service';
 
 export default {
-  getApartmentById: async (obj, args) =>
-    await models.apartment.findById(args.id),
-  getAllApartments: async () => await models.apartment.find(),
+  getApartmentById: (obj, args) => getById(args.id),
+  getAllApartments: () =>  getAll(),
 };
