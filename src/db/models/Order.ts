@@ -1,4 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+import { IUser } from './User';
+import { IVoucher } from './Voucher';
 
 const ID = mongoose.Types.ObjectId;
 
@@ -24,4 +26,11 @@ const schema = new mongoose.Schema(
 
 schema.plugin(require('mongoose-autopopulate'));
 
-export default mongoose.model('Order', schema);
+export interface IOrder {
+  buyer: IUser;
+  voucher: IVoucher;
+  quantity: Number;
+}
+
+export interface IOrderDocument extends Document{}
+export default mongoose.model<IOrderDocument>('Order', schema);

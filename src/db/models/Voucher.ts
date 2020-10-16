@@ -1,4 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+import { Variant } from '../../types';
+import { IUser } from './User';
 
 const ID = mongoose.Types.ObjectId;
 
@@ -28,7 +30,7 @@ const schema = new mongoose.Schema(
 
     variant: {
       type: String,
-      enum: ['RESTAURANT', 'CLUB', 'MUSEUM', 'CINEMA'],
+      enum: Object.keys(Variant),
     },
     quantity: {
       type: Number,
@@ -46,4 +48,14 @@ const schema = new mongoose.Schema(
 
 schema.plugin(require('mongoose-autopopulate'));
 
-export default mongoose.model('Voucher', schema);
+export interface IVoucher {
+  name: String;
+  description: String;
+  image: String;
+  price: Number;
+  variant: Variant;
+  quantity: Number;
+  seller: IUser;
+}
+export interface IVoucherDocument extends Document{}
+export default mongoose.model<IVoucherDocument>('Voucher', schema);

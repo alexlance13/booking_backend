@@ -1,22 +1,20 @@
-import { UserInputError } from 'apollo-server-express';
 import validate from '../../helpers/validation';
 import { MiddlewareFn } from '../../types';
+import { IApartment } from '../../db/models/Apartment';
 
-const createApartmentValidation: MiddlewareFn = async (root, args, context, info, next) => {
+const createApartmentValidation: MiddlewareFn = async (root, args: {apartment: IApartment}, context, info, next) => {
   const rules = {
-    name: 'required|alpha_num|min:3|max:25',
+    name: 'required|string|min:3|max:25',
     description: 'required|string|min:3|max:800',
     image: 'required|url',
     price: 'required|numeric|min:1',
     roomsCount: 'required|numeric|min:1|max:20',
-    seller: 'required|alpha_num',
+    seller: 'required|string',
   };
   const { apartment } = args;
 
-  const messagesObj = validate(rules, apartment);
-  if (Object.keys(messagesObj).length) {
-    throw new UserInputError('Validation Error:', messagesObj);
-  }
+  validate(rules, apartment);
+
   return next();
 };
 

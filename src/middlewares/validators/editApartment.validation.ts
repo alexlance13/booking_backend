@@ -1,22 +1,21 @@
-import { UserInputError } from 'apollo-server-express';
 import validate from '../../helpers/validation';
-import { MiddlewareFn } from '../../types';
+import { MiddlewareFn, Optional } from '../../types';
+import { IApartment } from '../../db/models/Apartment';
 
-const editApartmentValidation: MiddlewareFn = (root, args, context, info, next) => {
+const editApartmentValidation: MiddlewareFn = (root, args: {apartment: Optional<IApartment>}, context, info, next) => {
   const rules = {
-    name: 'required_without:description,image,price,roomsCount,seller|alpha_num|min:3|max:25',
-    description: 'required_without:name,image,price,roomsCount,seller|string|min:3|max:800',
-    image: 'required_without:name,description,price,roomsCount,seller|url',
-    price: 'required_without:name,description,image,roomsCount,seller|numeric|min:1',
-    roomsCount: 'required_without:name,description,image,price,seller|numeric|min:1|max:20',
-    seller: 'required_without:name,description,image,price,roomsCount|alpha_num',
+    _id: 'required|alpha_num',
+    name: 'string|min:3|max:25',
+    description: 'string|min:3|max:800',
+    image: 'url',
+    price: 'numeric|min:1',
+    roomsCount: 'numeric|min:1|max:20',
+    seller: 'string',
   };
   const { apartment } = args;
 
-  const messagesObj = validate(rules, apartment);
-  if (Object.keys(messagesObj).length) {
-    throw new UserInputError('Validation Error:', messagesObj);
-  }
+  validate(rules, apartment);
+
   return next();
 };
 

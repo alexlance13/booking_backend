@@ -1,4 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+import { IApartment } from './Apartment';
+import { IUser } from './User';
 
 const ID = mongoose.Types.ObjectId;
 
@@ -28,4 +30,12 @@ const schema = new mongoose.Schema(
 
 schema.plugin(require('mongoose-autopopulate'));
 
-export default mongoose.model('Booking', schema);
+export interface IBooking {
+  buyer: IUser;
+  apartment: IApartment;
+  dateStart: String;
+  dateEnd: String;
+}
+
+export interface IBookingDocument extends Document{}
+export default mongoose.model<IBookingDocument>('Booking', schema);

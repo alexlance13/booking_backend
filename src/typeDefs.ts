@@ -2,21 +2,30 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   type Mutation {
-    createUser(user: UserInput): User!
-
-    createApartment(apartment: ApartmentInput!): Apartment!
-    editApartment(id: String!, apartment: ApartmentInput!): Apartment!
-    removeApartment(id: String!): Apartment!
+    createUser(user: UserInput!): String!
+    editUser(id: String!, user: UserOptionalInput!): User!
+    removeUser(id: String!): User!
 
     createVoucher(voucher: VoucherInput!): Voucher!
-    editVoucher(id: String!, voucher: VoucherInput!): Voucher!
+    editVoucher(id: String!, voucher: VoucherOptionalInput!): Voucher!
     removeVoucher(id: String!): Voucher!
 
+    createApartment(apartment: ApartmentInput!): Apartment!
+    editApartment(id: String!, apartment: ApartmentOptionalInput!): Apartment!
+    removeApartment(id: String!): Apartment!
+
     createOrder(order: OrderInput!): Order!
+    editOrder(id: String!, order: OrderOptionalInput!): Order!
+    removeOrder(id: String!): Order!
+    
     createBooking(booking: BookingInput!): Booking!
+    editBooking(id: String!, booking: BookingOptionalInput!): Booking!
+    removeBooking(id: String!): Booking!
   }
   type Query {
+    loginUser(email: String!, password: String!): String!
     getUserById(id: String): User!
+    getAllUsers: [User!]!
 
     getApartmentById(id: String!): Apartment!
     getAllApartments: [Apartment!]!
@@ -30,12 +39,13 @@ export default gql`
     getOrderById(id: String!): Order!
     getAllOrders: [Order!]!
   }
+  
   type Apartment {
+    _id: ID!
     seller: User!
     name: String!
     description: String!
     image: String!
-    _id: ID!
     price: Int!
     roomsCount: Int!
     bookings: [Booking!]!
@@ -48,13 +58,21 @@ export default gql`
     roomsCount: Int!
     seller: String!
   }
+  input ApartmentOptionalInput {
+    name: String
+    description: String
+    image: String
+    price: Int
+    roomsCount: Int
+    seller: String
+  }
 
   type Voucher {
+    _id: ID
     seller: User!
     name: String!
     description: String!
     image: String!
-    _id: ID!
     price: Int!
     variant: Variant!
     quantity: Int!
@@ -68,6 +86,15 @@ export default gql`
     variant: Variant!
     quantity: Int!
   }
+  input VoucherOptionalInput {
+    seller: String
+    name: String
+    description: String
+    image: String
+    price: Int
+    variant: Variant
+    quantity: Int
+  }
   enum Variant {
     RESTAURANT
     CLUB
@@ -76,6 +103,7 @@ export default gql`
   }
 
   type Booking {
+    _id: ID!
     apartment: Apartment!
     buyer: User!
     dateStart: String!
@@ -86,6 +114,12 @@ export default gql`
     buyer: String!
     dateStart: String!
     dateEnd: String!
+  }
+  input BookingOptionalInput {
+    apartment: String
+    buyer: String
+    dateStart: String
+    dateEnd: String
   }
 
   type User {
@@ -103,7 +137,15 @@ export default gql`
     first_name: String!
     last_name: String!
     email: String!
-    role: Role!
+    role: Role!,
+    password: String!
+  }
+  input UserOptionalInput {
+    first_name: String
+    last_name: String
+    email: String
+    role: Role,
+    password: String
   }
   
   type Order {
@@ -116,5 +158,10 @@ export default gql`
     voucher: String!
     buyer: String!
     quantity: Int!
+  }
+  input OrderOptionalInput {
+    voucher: String
+    buyer: String
+    quantity: Int
   }
 `;

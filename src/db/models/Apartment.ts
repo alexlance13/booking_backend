@@ -1,4 +1,5 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+import { IUser } from './User';
 
 const ID = mongoose.Types.ObjectId;
 
@@ -11,7 +12,6 @@ const schema = new mongoose.Schema(
       maxlength: 25,
     },
     description: {
-
       type: String,
       required: true,
       minlength: 3,
@@ -40,4 +40,14 @@ const schema = new mongoose.Schema(
 
 schema.plugin(require('mongoose-autopopulate'));
 
-export default mongoose.model('Apartment', schema);
+export interface IApartment{
+  name: String;
+  description: String;
+  image: String;
+  price: Number;
+  roomsCount: Number;
+  seller: IUser;
+}
+
+export interface IApartmentDocument extends Document{}
+export default mongoose.model<IApartmentDocument>('Apartment', schema);

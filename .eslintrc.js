@@ -3,6 +3,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: [
     '@typescript-eslint',
+    'import'
   ],
   extends: [
     'airbnb-typescript/base',
@@ -17,6 +18,7 @@ module.exports = {
     'max-len': ['error', 300],
     'linebreak-style': 0,
     'import/no-cycle': ['off'],
+    'import/named': ['off'],
     '@typescript-eslint/interface-name-prefix': ['off'],
     '@typescript-eslint/no-explicit-any': ['off'],
     '@typescript-eslint/adjacent-overload-signatures': ['error'],
