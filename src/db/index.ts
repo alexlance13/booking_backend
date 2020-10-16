@@ -1,9 +1,9 @@
-/* eslint-disable no-console */
 import mongoose from 'mongoose';
+import { config } from 'node-config-ts';
 
 export * as models from './models';
 
-mongoose.connect(process.env.DB_URI, {
+mongoose.connect(config.DB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,

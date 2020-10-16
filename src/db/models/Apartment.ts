@@ -19,20 +19,20 @@ const schema = new mongoose.Schema(
     },
     image: {
       type: String,
-      required: true
+      required: true,
     },
     price: {
       type: Number,
-      required: true
+      required: true,
     },
     roomsCount: {
       type: Number,
-      required: true
+      required: true,
     },
     seller: {
       type: ID,
       ref: 'User',
-      autopopulate: true
+      autopopulate: true,
     },
   },
   { versionKey: false },

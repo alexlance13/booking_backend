@@ -7,23 +7,23 @@ const schema = new mongoose.Schema(
     buyer: {
       type: ID,
       ref: 'User',
-      autopopulate: true
+      autopopulate: true,
     },
     apartment: {
       type: ID,
       ref: 'Apartment',
-      autopopulate: true
+      autopopulate: true,
     },
     dateStart: {
       type: String,
-      requred: true
+      requred: true,
     },
     dateEnd: {
       type: String,
-      requred: true
+      requred: true,
     },
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
 schema.plugin(require('mongoose-autopopulate'));

@@ -3,7 +3,6 @@ import { gql } from 'apollo-server-express';
 export default gql`
   type Mutation {
     createUser(user: UserInput): User!
-    getUserById(id: String!): User!
 
     createApartment(apartment: ApartmentInput!): Apartment!
     editApartment(id: String!, apartment: ApartmentInput!): Apartment!

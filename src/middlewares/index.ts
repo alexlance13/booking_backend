@@ -1,2 +1,5 @@
-export {middleware} from './middleware'
-export {userValidation} from './user.validation'
+import * as validators from './validators';
+
+export default {
+  validators,
+};

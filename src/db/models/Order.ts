@@ -7,19 +7,19 @@ const schema = new mongoose.Schema(
     buyer: {
       type: ID,
       ref: 'User',
-      autopopulate: true
+      autopopulate: true,
     },
     voucher: {
       type: ID,
       ref: 'Voucher',
-      autopopulate: true
+      autopopulate: true,
     },
     quantity: {
       type: Number,
-      requred: true
+      requred: true,
     },
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
 schema.plugin(require('mongoose-autopopulate'));

@@ -8,40 +8,40 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 3,
-      maxlength: 25
+      maxlength: 25,
     },
     description: {
       type: String,
       required: true,
       minlength: 3,
-      maxlength: 800
+      maxlength: 800,
     },
     image: {
       type: String,
-      required: true
+      required: true,
     },
 
     price: {
       type: Number,
-      required: true
+      required: true,
     },
 
     variant: {
       type: String,
-      enum: ['RESTAURANT', 'CLUB', 'MUSEUM', 'CINEMA']
+      enum: ['RESTAURANT', 'CLUB', 'MUSEUM', 'CINEMA'],
     },
     quantity: {
       type: Number,
-      required: true
+      required: true,
     },
-    
+
     seller: {
       type: ID,
       ref: 'User',
-      autopopulate: true
+      autopopulate: true,
     },
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
 schema.plugin(require('mongoose-autopopulate'));
