@@ -1,4 +1,5 @@
 import mongoose, { Document } from 'mongoose';
+import * as types from '../../types';
 import { IUser } from './User';
 import { IVoucher } from './Voucher';
 
@@ -27,6 +28,7 @@ const schema = new mongoose.Schema(
 schema.plugin(require('mongoose-autopopulate'));
 
 export interface IOrder {
+  _id: types.ID;
   buyer: IUser;
   voucher: IVoucher;
   quantity: Number;

@@ -1,9 +1,38 @@
+// @ts-nocheck
 import { models } from '../db';
 import { IOrder, IOrderDocument } from '../db/models/Order';
-import { Optional, ID } from '../types';
+import { IUser } from '../db/models/user';
+import { Optional } from '../types';
 
-export const getById = (id: ID): Promise<IOrderDocument> => models.order.findById(id).exec();
+export const getById = (id: string): Promise<IOrderDocument> => models.order.findById(id).exec();
 export const getAll = (): Promise<IOrderDocument[]> => models.order.find().exec();
-export const create = (order: IOrder): Promise<IOrderDocument> => models.order.create(order);
-export const edit = (id: ID, order: Optional<IOrder>): Promise<IOrderDocument> => models.order.findByIdAndUpdate(id, order, { new: true }).exec();
-export const remove = (id: ID): Promise<IOrderDocument> => models.order.findByIdAndRemove(id).populate('buyer').populate('voucher').exec();
+
+export const edit = async (id: string, order: Optional<IOrder>): Promise<IOrderDocument> => {
+  try {
+    await models.order.findById(id);
+  } catch (e) {
+    throw new Error('Order is not defined');
+  }
+  return models.order.findByIdAndUpdate(id, order, { new: true }).exec();
+};
+
+export const remove = async (id: string): Promise<IOrderDocument> => {
+  try {
+    await models.order.findById(id);
+  } catch (e) {
+    throw new Error('Order is not defined');
+  }
+  return models.order.findByIdAndRemove(id).populate('buyer').populate('voucher').exec();
+};
+
+export const create = async (order: {voucher: string; buyer: string; quantity: number}, user: IUser): Promise<IOrderDocument> => {
+  if (!user?._id?.toString() === order?.buyer) {
+    throw new Error('Order info is not as expected');
+  }
+  const voucher = await models.voucher.findById(order.voucher);
+  if (!voucher) throw new Error('Voucher you provided doesn\'t exist');
+  if (order.quantity > voucher.quantity) throw new Error('You can\'t order more vouchers than seller has');
+  const newQuantity = voucher.quantity - order.quantity;
+  await models.voucher.findByIdAndUpdate(voucher._id, { quantity: newQuantity });
+  return models.order.create(order);
+};

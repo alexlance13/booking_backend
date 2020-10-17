@@ -20,16 +20,21 @@ const server = new ApolloServer({
 const app = express();
 server.applyMiddleware({ app });
 
-addMiddleware(schema, 'Mutation.createUser', middlewares.validators.createUser);
-addMiddleware(schema, 'Mutation.createBooking', middlewares.validators.createBooking);
-addMiddleware(schema, 'Mutation.createOrder', middlewares.validators.createOrder);
-addMiddleware(schema, 'Mutation.createVoucher', middlewares.validators.createVoucher);
-addMiddleware(schema, 'Mutation.createApartment', middlewares.validators.createApartment);
-addMiddleware(schema, 'Mutation.editApartment', middlewares.validators.editApartment);
-addMiddleware(schema, 'Mutation.editVoucher', middlewares.validators.editVoucher);
 addMiddleware(schema, middlewares.auth.getUserFromHeader);
-// addMiddleware(schema, 'Mutation', middlewares.auth.loggedInCheck);
-// addMiddleware(schema, 'Query', middlewares.auth.isSellerCheck);
+// Adding all validator middlewares TODO: user and more validators!!!
+Object.keys(resolvers.Mutation).forEach((key): void => {
+  if (middlewares.validators[key]) addMiddleware(schema, `Mutation.${key}`, middlewares.validators[key]);
+});
+
+addMiddleware(schema, 'Mutation', middlewares.auth.loggedInCheck);
+
+addMiddleware(schema, 'Mutation.createOrder', middlewares.auth.isBuyerCheck);
+addMiddleware(schema, 'Mutation.createBooking', middlewares.auth.isBuyerCheck);
+
+addMiddleware(schema, 'Mutation.createApartment', middlewares.auth.isSellerCheck);
+addMiddleware(schema, 'Mutation.createVoucher', middlewares.auth.isSellerCheck);
+addMiddleware(schema, 'Mutation.removeApartment', middlewares.auth.isSellerCheck);
+addMiddleware(schema, 'Mutation.removeVoucher', middlewares.auth.isSellerCheck);
 
 db.once('open', () => {
   app.listen({ port: 4000 }, () => console.log(`Server ready at ${config.HOST}${server.graphqlPath}`));

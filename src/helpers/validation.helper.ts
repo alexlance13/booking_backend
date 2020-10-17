@@ -6,6 +6,6 @@ export default function validate(rules: {[key: string]: string}, data: {[key: st
   const validation = new Validator(data, rules);
   if (keysLength.length < minKeysLength) throw new UserInputError('UserInputLength');
   else if (validation.fails()) {
-    throw new UserInputError('Validation Error:', validation.errors.errors);
+    throw new UserInputError('ValidationError:', validation.errors.errors);
   }
 }

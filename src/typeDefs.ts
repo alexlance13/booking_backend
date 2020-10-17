@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   type Mutation {
-    createUser(user: UserInput!): String!
+    createUser(user: UserInput!): UserOutput!
     editUser(id: String!, user: UserOptionalInput!): User!
     removeUser(id: String!): User!
 
@@ -23,7 +23,7 @@ export default gql`
     removeBooking(id: String!): Booking!
   }
   type Query {
-    loginUser(email: String!, password: String!): String!
+    loginUser(email: String!, password: String!): UserOutput!
     getUserById(id: String): User!
     getAllUsers: [User!]!
 
@@ -41,7 +41,7 @@ export default gql`
   }
   
   type Apartment {
-    _id: ID!
+    _id: String!
     seller: User!
     name: String!
     description: String!
@@ -68,7 +68,7 @@ export default gql`
   }
 
   type Voucher {
-    _id: ID
+    _id: String
     seller: User!
     name: String!
     description: String!
@@ -103,7 +103,7 @@ export default gql`
   }
 
   type Booking {
-    _id: ID!
+    _id: String!
     apartment: Apartment!
     buyer: User!
     dateStart: String!
@@ -123,7 +123,7 @@ export default gql`
   }
 
   type User {
-    _id: ID!
+    _id: String!
     first_name: String!
     last_name: String!
     email: String!
@@ -147,9 +147,13 @@ export default gql`
     role: Role,
     password: String
   }
+  type UserOutput {
+    token: String!
+    user: User!
+  }
   
   type Order {
-    _id: ID!
+    _id: String!
     voucher: Voucher!
     buyer: User!
     quantity: Int!

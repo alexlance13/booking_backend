@@ -1,26 +1,37 @@
 import { UserInputError } from 'apollo-server-express';
 import { models } from '../db';
 import { IUser, IUserDocument } from '../db/models/User';
-import { Optional, ID } from '../types';
+import { Optional } from '../types';
 
-export const getById = (id: ID): Promise<IUserDocument> => models.user.findById(id).exec();
+export const getById = (id: string): Promise<IUserDocument> => models.user.findById(id).exec();
 export const getAll = (): Promise<IUserDocument[]> => models.user.find().exec();
-export const edit = (id: ID, user: Optional<IUser>): Promise<IUserDocument> => models.user.findByIdAndUpdate(id, user, { new: true }).exec();
-export const remove = (id: ID): Promise<IUserDocument> => models.user.findByIdAndRemove(id).exec();
 
-export const create = async (user: IUser): Promise<String> => {
-  if (await models.user.findOne({ email: user.email })) throw new Error('Email already exist');
-  const createdUser = await models.user.create(user);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const token = await createdUser.jwtSign();
-  return token;
+export const edit = (id: string, user: Optional<IUser>, context: {user: IUser}): Promise<IUserDocument> => {
+  if (id !== context.user._id.toString()) throw new Error('You can\'t edit another user');
+  return models.user.findByIdAndUpdate(id, user, { new: true }).exec();
 };
 
-export const login = async (args: {email: String; password: String}): Promise<String> => {
+export const remove = async (id: string): Promise<IUserDocument> => {
+  try {
+    await models.user.findById(id);
+  } catch (e) {
+    throw new Error('User with this id is not defined');
+  }
+  return models.user.findByIdAndRemove(id).exec();
+};
+
+export const create = async (user: IUser): Promise<{token: string; user: IUserDocument}> => {
+  if (await models.user.findOne({ email: user.email })) throw new Error('Email already exist');
+  const createdUser = await models.user.create(user);
+  const token = await createdUser.jwtSign();
+  return { token, user: createdUser };
+};
+
+export const login = async (args: {email: string; password: string}): Promise<{token: string; user: IUserDocument}> => {
   const user = await models.user.findOne({ email: args.email });
   if (user && user.verifyPassword(args.password)) {
     const token = await user.jwtSign();
-    return token;
+    return { token, user };
   }
   throw new UserInputError('AuthError', { credentials: 'Invalid credentials' });
 };

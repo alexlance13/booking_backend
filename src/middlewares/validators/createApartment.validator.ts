@@ -1,4 +1,4 @@
-import validate from '../../helpers/validation';
+import validate from '../../helpers/validation.helper';
 import { MiddlewareFn } from '../../types';
 import { IApartment } from '../../db/models/Apartment';
 
@@ -10,6 +10,7 @@ const createApartmentValidation: MiddlewareFn = async (root, args: {apartment: I
     price: 'required|numeric|min:1',
     roomsCount: 'required|numeric|min:1|max:20',
     seller: 'required|string',
+
   };
   const { apartment } = args;
 

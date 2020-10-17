@@ -1,5 +1,5 @@
 import mongoose, { Document } from 'mongoose';
-import { Variant } from '../../types';
+import * as types from '../../types';
 import { IUser } from './User';
 
 const ID = mongoose.Types.ObjectId;
@@ -30,7 +30,7 @@ const schema = new mongoose.Schema(
 
     variant: {
       type: String,
-      enum: Object.keys(Variant),
+      enum: Object.keys(types.Variant),
     },
     quantity: {
       type: Number,
@@ -49,11 +49,12 @@ const schema = new mongoose.Schema(
 schema.plugin(require('mongoose-autopopulate'));
 
 export interface IVoucher {
-  name: String;
-  description: String;
-  image: String;
+  _id: types.ID;
+  name: string;
+  description: string;
+  image: string;
   price: Number;
-  variant: Variant;
+  variant: types.Variant;
   quantity: Number;
   seller: IUser;
 }

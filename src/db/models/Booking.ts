@@ -1,4 +1,5 @@
 import mongoose, { Document } from 'mongoose';
+import * as types from '../../types';
 import { IApartment } from './Apartment';
 import { IUser } from './User';
 
@@ -31,10 +32,11 @@ const schema = new mongoose.Schema(
 schema.plugin(require('mongoose-autopopulate'));
 
 export interface IBooking {
+  _id: types.ID;
   buyer: IUser;
   apartment: IApartment;
-  dateStart: String;
-  dateEnd: String;
+  dateStart: string;
+  dateEnd: string;
 }
 
 export interface IBookingDocument extends Document{}

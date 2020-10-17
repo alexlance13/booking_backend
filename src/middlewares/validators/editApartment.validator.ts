@@ -1,8 +1,9 @@
-import validate from '../../helpers/validation';
+import mongoose from 'mongoose';
+import validate from '../../helpers/validation.helper';
 import { MiddlewareFn, Optional } from '../../types';
 import { IApartment } from '../../db/models/Apartment';
 
-const editApartmentValidation: MiddlewareFn = (root, args: {apartment: Optional<IApartment>}, context, info, next) => {
+const editApartmentValidation: MiddlewareFn = (root, args: {apartment: Optional<IApartment>; id: string}, context, info, next) => {
   const rules = {
     _id: 'required|alpha_num',
     name: 'string|min:3|max:25',
@@ -12,7 +13,8 @@ const editApartmentValidation: MiddlewareFn = (root, args: {apartment: Optional<
     roomsCount: 'numeric|min:1|max:20',
     seller: 'string',
   };
-  const { apartment } = args;
+  const { apartment, id } = args;
+  apartment._id = mongoose.Types.ObjectId(id);
 
   validate(rules, apartment);
 

@@ -1,4 +1,4 @@
-import validate from '../../helpers/validation';
+import validate from '../../helpers/validation.helper';
 import { MiddlewareFn } from '../../types';
 import { IOrder } from '../../db/models/Order';
 

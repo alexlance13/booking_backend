@@ -1,4 +1,4 @@
-import validate from '../../helpers/validation';
+import validate from '../../helpers/validation.helper';
 import { MiddlewareFn, Variant } from '../../types';
 import { IVoucher } from '../../db/models/Voucher';
 
@@ -8,7 +8,6 @@ const createVoucherValidation: MiddlewareFn = async (root, args: {voucher: IVouc
     description: 'required|string|min:3|max:800',
     image: 'required|url',
     price: 'required|numeric|min:1',
-    roomsCount: 'required|numeric|min:1|max:20',
     seller: 'required|string',
     variant: `required|in:${Object.keys(Variant)}`,
     quantity: 'required|numeric|min:1',

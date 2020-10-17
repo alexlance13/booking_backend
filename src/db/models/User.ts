@@ -3,7 +3,7 @@ import mongoose, { Document } from 'mongoose';
 import jwt from 'jsonwebtoken';
 import pwd from 'password-hash';
 import { config } from 'node-config-ts';
-import { Role } from '../../types';
+import { ID, Role } from '../../types';
 
 const schema = new mongoose.Schema(
   {
@@ -56,7 +56,7 @@ schema.methods.verifyPassword = async function verifyPassword(plainPassword): Pr
   return pwd.verify(plainPassword, this.password);
 };
 
-schema.methods.jwtSign = async function jwtSign(): Promise<String> {
+schema.methods.jwtSign = async function jwtSign(): Promise<string> {
   const obj = this.toObject();
   return jwt.sign(obj, config.SECRET_KEY);
 };
@@ -68,15 +68,16 @@ schema.statics.jwtVerify = async function jwtVerify(token: string): Promise<IUse
 };
 
 export interface IUser {
-  first_name: String;
-  last_name: String;
-  email: String;
-  role: String;
-  password: String;
+  _id: ID;
+  first_name: string;
+  last_name: string;
+  email: string;
+  role: string;
+  password: string;
 }
 
 export interface IUserDocument extends Document{
-  jwtSign: () => Promise<String>;
+  jwtSign: () => Promise<string>;
   jwtVerify: (token: string) => IUserDocument;
   verifyPassword: (plainPassword: any) => Promise<boolean>;
 }
