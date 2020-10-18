@@ -53,9 +53,9 @@ export interface IVoucher {
   name: string;
   description: string;
   image: string;
-  price: Number;
+  price: number;
   variant: types.Variant;
-  quantity: Number;
+  quantity: number;
   seller: IUser;
 }
 export interface IVoucherDocument extends Document{}

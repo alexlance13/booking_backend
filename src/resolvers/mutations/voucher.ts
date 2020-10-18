@@ -4,7 +4,7 @@ import { Optional } from '../../types';
 import { IUser } from '../../db/models/user';
 
 export default {
-  createVoucher: (obj: any, args: {voucher: IVoucher}): Promise<IVoucherDocument> => create(args.voucher),
+  createVoucher: (obj: any, args: {voucher: IVoucher}, context: {user: IUser}): Promise<IVoucherDocument> => create(args.voucher, context.user),
   editVoucher: (obj: any, args: {id: string; voucher: Optional<IVoucher>}, context: {user: IUser}): Promise<IVoucherDocument> => edit(args.id, args.voucher, context.user),
   removeVoucher: (obj: any, args: {id: string; voucher: IVoucher}, context: {user: IUser}): Promise<IVoucherDocument> => remove(args.id, context.user),
 };

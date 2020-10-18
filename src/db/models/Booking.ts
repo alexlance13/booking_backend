@@ -1,6 +1,6 @@
 import mongoose, { Document } from 'mongoose';
 import * as types from '../../types';
-import { IApartment } from './Apartment';
+import { IApartment, IApartmentDocument } from './Apartment';
 import { IUser } from './User';
 
 const ID = mongoose.Types.ObjectId;
@@ -18,11 +18,11 @@ const schema = new mongoose.Schema(
       autopopulate: true,
     },
     dateStart: {
-      type: String,
+      type: Date,
       requred: true,
     },
     dateEnd: {
-      type: String,
+      type: Date,
       requred: true,
     },
   },
@@ -35,9 +35,11 @@ export interface IBooking {
   _id: types.ID;
   buyer: IUser;
   apartment: IApartment;
-  dateStart: string;
-  dateEnd: string;
+  dateStart: Date;
+  dateEnd: Date;
 }
 
-export interface IBookingDocument extends Document{}
+export interface IBookingDocument extends Document{
+  apartment: IApartmentDocument;
+}
 export default mongoose.model<IBookingDocument>('Booking', schema);

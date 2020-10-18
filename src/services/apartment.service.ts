@@ -6,7 +6,10 @@ import { Optional } from '../types';
 
 export const getById = (id: string): Promise<IApartmentDocument> => models.apartment.findById(id).exec();
 export const getAll = (): Promise<IApartmentDocument[]> => models.apartment.find().exec();
-export const create = (apartment: IApartment): Promise<IApartmentDocument> => models.apartment.create(apartment);
+export const create = (apartment: IApartment, user: IUser): Promise<IApartmentDocument> => {
+  if (apartment.seller !== user._id) throw new Error('Forbidden');
+  return models.apartment.create(apartment);
+};
 
 export const edit = async (id: string, apartment: Optional<IApartment>, context: {user: IUser}): Promise<IApartmentDocument> => {
   const aps = await models.apartment.findById(id);

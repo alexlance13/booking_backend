@@ -48,7 +48,7 @@ export default gql`
     image: String!
     price: Int!
     roomsCount: Int!
-    bookings: [Booking!]!
+    bookings: [Booking]!
   }
   input ApartmentInput {
     name: String!

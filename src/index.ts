@@ -15,6 +15,7 @@ const server = new ApolloServer({
   // eslint-disable-next-line no-undef
   context: (context: any): any => ({
     auth: context.req.headers.authorization,
+    operationName: context.req.body.operationName,
   }),
 });
 const app = express();

@@ -1,4 +1,4 @@
-import mongoose, {Document} from 'mongoose';
+import mongoose from 'mongoose';
 import { config } from 'node-config-ts';
 
 export * as models from './models';

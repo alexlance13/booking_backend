@@ -3,13 +3,13 @@ import { MiddlewareFn } from '../../types';
 import { IBooking } from '../../db/models/Booking';
 
 const createBookingValidation: MiddlewareFn = (root, args: {booking: IBooking}, context, info, next) => {
+  const { booking } = args;
   const rules = {
     apartment: 'required|string',
     buyer: 'required|string',
-    dateStart: 'required|date',
-    dateEnd: 'required|after_or_equal:dateStart',
+    dateStart: 'required|myDateFormat|notPast|date',
+    dateEnd: `required|myDateFormat|lessThenYear:${booking.dateStart}|after_or_equal:dateStart`,
   };
-  const { booking } = args;
 
   validate(rules, booking);
 

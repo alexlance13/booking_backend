@@ -1,6 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 import * as types from '../../types';
-import { IUser } from './User';
+import { IBooking, IBookingDocument } from './booking';
+import { IUser, IUserDocument } from './User';
 
 const ID = mongoose.Types.ObjectId;
 
@@ -35,6 +36,7 @@ const schema = new mongoose.Schema(
       ref: 'User',
       autopopulate: true,
     },
+    bookings: [{ type: ID, ref: 'Booking', autopopulate: true }],
   },
   { versionKey: false },
 );
@@ -46,10 +48,14 @@ export interface IApartment{
   name: string;
   description: string;
   image: string;
-  price: Number;
-  roomsCount: Number;
+  price: number;
+  roomsCount: number;
   seller: IUser;
+  bookings: IBooking[];
 }
 
-export interface IApartmentDocument extends Document{}
+export interface IApartmentDocument extends Document{
+  bookings: IBookingDocument[];
+  seller: IUserDocument;
+}
 export default mongoose.model<IApartmentDocument>('Apartment', schema);
