@@ -1,9 +1,8 @@
-// @ts-nocheck
-import mongoose, { Document } from 'mongoose';
+import mongoose, { Document, Model } from 'mongoose';
 import jwt from 'jsonwebtoken';
 import pwd from 'password-hash';
 import { config } from 'node-config-ts';
-import { ID, Role } from '../../types';
+import * as types from '../../types';
 
 const schema = new mongoose.Schema(
   {
@@ -27,7 +26,7 @@ const schema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: Object.keys(Role),
+      enum: Object.keys(types.Role),
     },
     password: {
       type: String,
@@ -40,8 +39,8 @@ const schema = new mongoose.Schema(
 );
 
 schema.pre('save', async function beforeSave(next) {
-  if (this.password && this.isModified('password')) {
-    this.password = pwd.generate(this.password);
+  if ((this as IUserDocument).password && this.isModified('password')) {
+    (this as IUserDocument).password = pwd.generate((this as IUserDocument).password);
   }
   await next();
 });
@@ -63,12 +62,12 @@ schema.methods.jwtSign = async function jwtSign(): Promise<string> {
 
 schema.statics.jwtVerify = async function jwtVerify(token: string): Promise<IUserDocument> {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { _id } = jwt.verify(token, config.SECRET_KEY);
+  const { _id } = jwt.verify(token, config.SECRET_KEY) as IUserDocument;
   return this.findById(_id);
 };
 
 export interface IUser {
-  _id: ID;
+  _id: types.ID | any;
   first_name: string;
   last_name: string;
   email: string;
@@ -76,9 +75,11 @@ export interface IUser {
   password: string;
 }
 
-export interface IUserDocument extends Document{
-  jwtSign: () => Promise<string>;
-  jwtVerify: (token: string) => IUserDocument;
-  verifyPassword: (plainPassword: any) => Promise<boolean>;
+export interface IUserDocument extends IUser, Document{
+  jwtSign(): Promise<string>;
+  verifyPassword(plainPassword: any): Promise<boolean>;
 }
-export default mongoose.model<IUserDocument>('User', schema);
+export interface IUserModel extends Model<IUserDocument>{
+  jwtVerify(token: string): IUserDocument;
+}
+export default mongoose.model<IUserDocument, IUserModel>('User', schema);

@@ -3,6 +3,7 @@ import { IBooking, IBookingDocument } from '../db/models/Booking';
 import { IUser } from '../db/models/user';
 import { Optional } from '../types';
 import isDateBetween from '../helpers/date.helper';
+import { IApartmentDocument } from '../db/models/Apartment';
 
 export const getById = (id: string): Promise<IBookingDocument> => models.booking.findById(id).exec();
 export const getAll = (): Promise<IBookingDocument[]> => models.booking.find().exec();
@@ -32,6 +33,6 @@ export const create = async (booking: {apartment: string; buyer: string; dateSta
 
 export const remove = async (id: string, user: IUser): Promise<IBookingDocument> => {
   const booking = await models.booking.findById(id);
-  if (user._id.toString() !== booking?.apartment.seller._id.toString()) throw new Error('Forbidden');
+  if (user._id.toString() !== (booking?.apartment as IApartmentDocument).seller._id.toString()) throw new Error('Forbidden');
   return models.booking.findByIdAndDelete(booking.id);
 };

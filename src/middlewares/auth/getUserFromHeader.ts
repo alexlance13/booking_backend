@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { models } from '../../db';
 
 const auth = async (root, args, context, info, next): Promise<any> => {

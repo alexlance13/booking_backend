@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { models } from '../db';
 import { IOrder, IOrderDocument } from '../db/models/Order';
 import { IUser } from '../db/models/user';
@@ -26,7 +25,7 @@ export const remove = async (id: string): Promise<IOrderDocument> => {
 };
 
 export const create = async (order: {voucher: string; buyer: string; quantity: number}, user: IUser): Promise<IOrderDocument> => {
-  if (!user?._id?.toString() === order?.buyer) {
+  if (user._id.toString() === order?.buyer) {
     throw new Error('Order info is not as expected');
   }
   const voucher = await models.voucher.findById(order.voucher);

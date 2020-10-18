@@ -1,7 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 import * as types from '../../types';
-import { IBooking, IBookingDocument } from './booking';
-import { IUser, IUserDocument } from './User';
+import { IBookingDocument } from './booking';
+import { IUserDocument } from './User';
 
 const ID = mongoose.Types.ObjectId;
 
@@ -44,18 +44,15 @@ const schema = new mongoose.Schema(
 schema.plugin(require('mongoose-autopopulate'));
 
 export interface IApartment{
-  _id: types.ID;
+  _id: types.ID | any;
   name: string;
   description: string;
   image: string;
   price: number;
   roomsCount: number;
-  seller: IUser;
-  bookings: IBooking[];
+  seller: IUserDocument;
+  bookings: IBookingDocument[];
 }
 
-export interface IApartmentDocument extends Document{
-  bookings: IBookingDocument[];
-  seller: IUserDocument;
-}
+export interface IApartmentDocument extends IApartment, Document{}
 export default mongoose.model<IApartmentDocument>('Apartment', schema);

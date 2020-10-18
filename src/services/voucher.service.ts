@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { models } from '../db';
 import { IUser } from '../db/models/user';
 import { IVoucher, IVoucherDocument } from '../db/models/Voucher';
