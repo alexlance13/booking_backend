@@ -5,6 +5,6 @@ import { IUser } from '../../db/models/user';
 
 export default {
   createApartment: (obj: any, args: {apartment: IApartment}, context: {user: IUser}): Promise<IApartmentDocument> => create(args.apartment, context.user),
-  editApartment: (obj: any, args: {id: string; apartment: Optional<IApartment>}, context: {user: IUser}): Promise<IApartmentDocument> => edit(args.id, args.apartment, context),
-  removeApartment: (obj: any, args: {id: string}, context: {user: IUser}): Promise<IApartmentDocument> => remove(args.id, context),
+  editApartment: (obj: any, args: {id: string; apartment: Optional<IApartment>}, context: {user: IUser}): Promise<IApartmentDocument> => edit(args.id, args.apartment, context.user),
+  removeApartment: (obj: any, args: {id: string}, context: {user: IUser}): Promise<IApartmentDocument> => remove(args.id, context.user),
 };

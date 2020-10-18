@@ -25,9 +25,7 @@ export const remove = async (id: string): Promise<IOrderDocument> => {
 };
 
 export const create = async (order: {voucher: string; buyer: string; quantity: number}, user: IUser): Promise<IOrderDocument> => {
-  if (user._id.toString() === order?.buyer) {
-    throw new Error('Order info is not as expected');
-  }
+  if (user._id.toString() !== order?.buyer) throw new Error('Forbidden');
   const voucher = await models.voucher.findById(order.voucher);
   if (!voucher) throw new Error('Voucher you provided doesn\'t exist');
   if (order.quantity > voucher.quantity) throw new Error('You can\'t order more vouchers than seller has');
