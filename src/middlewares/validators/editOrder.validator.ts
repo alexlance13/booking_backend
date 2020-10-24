@@ -7,7 +7,6 @@ const editOrderValidation: MiddlewareFn = (root, args: {order: Optional<IOrder>;
   const rules = {
     _id: 'required|alpha_num',
     voucher: 'string',
-    buyer: 'string',
     quantity: 'numeric|min:1',
   };
   const { order, id } = args;

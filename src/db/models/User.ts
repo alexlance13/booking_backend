@@ -3,6 +3,10 @@ import jwt from 'jsonwebtoken';
 import pwd from 'password-hash';
 import { config } from 'node-config-ts';
 import * as types from '../../types';
+import { IApartmentDocument } from './Apartment';
+import { IBookingDocument } from './booking';
+import { IOrderDocument } from './Order';
+import { IVoucherDocument } from './Voucher';
 
 const schema = new mongoose.Schema(
   {
@@ -10,19 +14,19 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 3,
-      maxlength: 25,
+      maxlength: 50,
     },
     last_name: {
       type: String,
       required: true,
       minlength: 3,
-      maxlength: 25,
+      maxlength: 50,
     },
     email: {
       type: String,
       required: true,
-      inlength: 7,
-      maxlength: 25,
+      minlength: 7,
+      maxlength: 50,
     },
     role: {
       type: String,
@@ -73,13 +77,17 @@ export interface IUser {
   email: string;
   role: string;
   password: string;
+  apartments?: IApartmentDocument[];
+  vouchers?: IVoucherDocument[];
+  bookings?: IBookingDocument[];
+  orders?: IOrderDocument[];
 }
 
-export interface IUserDocument extends IUser, Document{
+export interface IUserDocument extends IUser, Document {
   jwtSign(): Promise<string>;
   verifyPassword(plainPassword: any): Promise<boolean>;
 }
-export interface IUserModel extends Model<IUserDocument>{
+export interface IUserModel extends Model<IUserDocument> {
   jwtVerify(token: string): IUserDocument;
 }
 export default mongoose.model<IUserDocument, IUserModel>('User', schema);

@@ -11,7 +11,7 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 3,
-      maxlength: 25,
+      maxlength: 50,
     },
     description: {
       type: String,
@@ -43,7 +43,7 @@ const schema = new mongoose.Schema(
 
 schema.plugin(require('mongoose-autopopulate'));
 
-export interface IApartment{
+export interface IApartment {
   _id: types.ID | any;
   name: string;
   description: string;
@@ -54,5 +54,5 @@ export interface IApartment{
   bookings: IBookingDocument[];
 }
 
-export interface IApartmentDocument extends IApartment, Document{}
+export interface IApartmentDocument extends IApartment, Document {}
 export default mongoose.model<IApartmentDocument>('Apartment', schema);

@@ -17,7 +17,7 @@ export default gql`
     createOrder(order: OrderInput!): Order!
     editOrder(id: String!, order: OrderOptionalInput!): Order!
     removeOrder(id: String!): Order!
-    
+
     createBooking(booking: BookingInput!): Booking!
     editBooking(id: String!, booking: BookingOptionalInput!): Booking!
     removeBooking(id: String!): Booking!
@@ -39,7 +39,7 @@ export default gql`
     getOrderById(id: String!): Order!
     getAllOrders: [Order!]!
   }
-  
+
   type Apartment {
     _id: String!
     seller: User!
@@ -56,7 +56,6 @@ export default gql`
     image: String!
     price: Int!
     roomsCount: Int!
-    seller: String!
   }
   input ApartmentOptionalInput {
     name: String
@@ -64,7 +63,6 @@ export default gql`
     image: String
     price: Int
     roomsCount: Int
-    seller: String
   }
 
   type Voucher {
@@ -76,9 +74,9 @@ export default gql`
     price: Int!
     variant: Variant!
     quantity: Int!
+    orders: [Order]!
   }
   input VoucherInput {
-    seller: String!
     name: String!
     description: String!
     image: String!
@@ -87,7 +85,6 @@ export default gql`
     quantity: Int!
   }
   input VoucherOptionalInput {
-    seller: String
     name: String
     description: String
     image: String
@@ -106,20 +103,18 @@ export default gql`
     _id: String!
     apartment: Apartment!
     buyer: User!
-    dateStart: String!
-    dateEnd: String!
+    startDate: String!
+    endDate: String!
   }
   input BookingInput {
     apartment: String!
-    buyer: String!
-    dateStart: String!
-    dateEnd: String!
+    startDate: String!
+    endDate: String!
   }
   input BookingOptionalInput {
     apartment: String
-    buyer: String
-    dateStart: String
-    dateEnd: String
+    startDate: String
+    endDate: String
   }
 
   type User {
@@ -128,6 +123,10 @@ export default gql`
     last_name: String!
     email: String!
     role: Role!
+    apartments: [Apartment]
+    bookings: [Booking]
+    orders: [Order]
+    vouchers: [Voucher]
   }
   enum Role {
     BUYER
@@ -137,21 +136,21 @@ export default gql`
     first_name: String!
     last_name: String!
     email: String!
-    role: Role!,
+    role: Role!
     password: String!
   }
   input UserOptionalInput {
     first_name: String
     last_name: String
     email: String
-    role: Role,
+    role: Role
     password: String
   }
   type UserOutput {
     token: String!
     user: User!
   }
-  
+
   type Order {
     _id: String!
     voucher: Voucher!
@@ -160,12 +159,10 @@ export default gql`
   }
   input OrderInput {
     voucher: String!
-    buyer: String!
     quantity: Int!
   }
   input OrderOptionalInput {
     voucher: String
-    buyer: String
     quantity: Int
   }
 `;

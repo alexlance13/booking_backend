@@ -1,37 +1,54 @@
-import { UserInputError } from 'apollo-server-express';
+import { AuthenticationError, ForbiddenError, UserInputError } from 'apollo-server-express';
 import { models } from '../db';
 import { IUser, IUserDocument } from '../db/models/User';
 import { Optional } from '../types';
 
-export const getById = (id: string): Promise<IUserDocument> => models.user.findById(id).exec();
+export const getById = async (id: string): Promise<IUser> => {
+  const user = await models.user.findById(id).lean().exec();
+  switch (user?.role) {
+    case 'SELLER':
+      user.apartments = await models.apartment.find({ seller: user._id });
+      user.vouchers = await models.voucher.find({ seller: user._id });
+      break;
+    case 'BUYER':
+      user.bookings = await models.booking.find({ buyer: user._id });
+      user.orders = await models.order.find({ buyer: user._id });
+      break;
+    default:
+      console.log('The user is not a seller or a buyer');
+  }
+  return user;
+};
 export const getAll = (): Promise<IUserDocument[]> => models.user.find().exec();
 
-export const edit = (id: string, user: Optional<IUser>, context: {user: IUser}): Promise<IUserDocument> => {
-  if (id !== context.user._id.toString()) throw new Error('You can\'t edit another user');
-  return models.user.findByIdAndUpdate(id, user, { new: true }).exec();
+export const edit = (id: string, user: Optional<IUser>, context: { user: IUser }): Promise<IUserDocument> => {
+  if (id !== context.user._id.toString()) throw new ForbiddenError("You can't edit another user");
+  const editedUser = models.user.findByIdAndUpdate(id, user, { new: true }).exec();
+  console.log(`User ${editedUser} are successfully edited`);
+  return editedUser;
 };
 
 export const remove = async (id: string): Promise<IUserDocument> => {
-  try {
-    await models.user.findById(id);
-  } catch (e) {
-    throw new Error('User with this id is not defined');
-  }
-  return models.user.findByIdAndRemove(id).exec();
+  const user = models.user.findByIdAndRemove(id).exec();
+  if (!user) throw new UserInputError('User with this id is not defined');
+  console.log(`User ${user} are successfully removed`);
+  return user;
 };
 
-export const create = async (user: IUser): Promise<{token: string; user: IUserDocument}> => {
-  if (await models.user.findOne({ email: user.email })) throw new Error('Email already exist');
+export const create = async (user: IUser): Promise<{ token: string; user: IUserDocument }> => {
+  if (await models.user.findOne({ email: user.email })) throw new AuthenticationError('Email already exist');
   const createdUser = await models.user.create(user);
   const token = await createdUser.jwtSign();
+  console.log(`User ${createdUser} are successfully created`);
   return { token, user: createdUser };
 };
 
-export const login = async (args: {email: string; password: string}): Promise<{token: string; user: IUserDocument}> => {
+export const login = async (args: { email: string; password: string }): Promise<{ token: string; user: IUserDocument }> => {
   const user = await models.user.findOne({ email: args.email });
-  if (user && user.verifyPassword(args.password)) {
+  if (user && (await user.verifyPassword(args.password))) {
     const token = await user.jwtSign();
+    console.log(`User ${user} are successfully logged in`);
     return { token, user };
   }
-  throw new UserInputError('AuthError', { credentials: 'Invalid credentials' });
+  throw new AuthenticationError('Invalid credentials');
 };

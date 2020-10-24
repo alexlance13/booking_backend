@@ -22,7 +22,7 @@ const app = express();
 server.applyMiddleware({ app });
 
 addMiddleware(schema, middlewares.auth.getUserFromHeader);
-// Adding all validator middlewares TODO: user and more validators!!!
+// Adding all validator middlewares
 Object.keys(resolvers.Mutation).forEach((key): void => {
   if (middlewares.validators[key]) addMiddleware(schema, `Mutation.${key}`, middlewares.validators[key]);
 });

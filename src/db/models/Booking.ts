@@ -17,16 +17,16 @@ const schema = new mongoose.Schema(
       ref: 'Apartment',
       autopopulate: true,
     },
-    dateStart: {
+    startDate: {
       type: Date,
       requred: true,
     },
-    dateEnd: {
+    endDate: {
       type: Date,
       requred: true,
     },
   },
-  { versionKey: false },
+  { versionKey: false }
 );
 
 schema.plugin(require('mongoose-autopopulate'));
@@ -35,9 +35,9 @@ export interface IBooking {
   _id: types.ID | any;
   buyer: IUserDocument | string;
   apartment: IApartmentDocument | string;
-  dateStart: Date;
-  dateEnd: Date;
+  startDate: Date;
+  endDate: Date;
 }
 
-export interface IBookingDocument extends IBooking, Document{}
+export interface IBookingDocument extends IBooking, Document {}
 export default mongoose.model<IBookingDocument>('Booking', schema);

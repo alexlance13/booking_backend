@@ -1,5 +1,6 @@
 import mongoose, { Document } from 'mongoose';
 import * as types from '../../types';
+import { IOrderDocument } from './Order';
 import { IUserDocument } from './User';
 
 const ID = mongoose.Types.ObjectId;
@@ -10,7 +11,7 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 3,
-      maxlength: 25,
+      maxlength: 50,
     },
     description: {
       type: String,
@@ -42,6 +43,7 @@ const schema = new mongoose.Schema(
       ref: 'User',
       autopopulate: true,
     },
+    orders: [{ type: ID, ref: 'Order', autopopulate: true }],
   },
   { versionKey: false },
 );
@@ -57,6 +59,7 @@ export interface IVoucher {
   variant: types.Variant;
   quantity: number;
   seller: IUserDocument;
+  orders: IOrderDocument[];
 }
-export interface IVoucherDocument extends IVoucher, Document{}
+export interface IVoucherDocument extends IVoucher, Document {}
 export default mongoose.model<IVoucherDocument>('Voucher', schema);
