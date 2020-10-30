@@ -1,7 +1,7 @@
 import { AuthenticationError, ForbiddenError, UserInputError } from 'apollo-server-express';
 import { models } from '../db';
 import { IUser, IUserDocument } from '../db/models/User';
-import { Optional } from '../types';
+import { Optional, IAuthUser } from '../types';
 
 export const getById = async (id: string): Promise<IUser> => {
   const user = await models.user.findById(id).lean().exec();
@@ -35,7 +35,7 @@ export const remove = async (id: string): Promise<IUserDocument> => {
   return user;
 };
 
-export const create = async (user: IUser): Promise<{ token: string; user: IUserDocument }> => {
+export const create = async (user: IUser): Promise<IAuthUser> => {
   if (await models.user.findOne({ email: user.email })) throw new AuthenticationError('Email already exist');
   const createdUser = await models.user.create(user);
   const token = await createdUser.jwtSign();
@@ -43,7 +43,7 @@ export const create = async (user: IUser): Promise<{ token: string; user: IUserD
   return { token, user: createdUser };
 };
 
-export const login = async (args: { email: string; password: string }): Promise<{ token: string; user: IUserDocument }> => {
+export const login = async (args: { email: string; password: string }): Promise<IAuthUser> => {
   const user = await models.user.findOne({ email: args.email });
   if (user && (await user.verifyPassword(args.password))) {
     const token = await user.jwtSign();

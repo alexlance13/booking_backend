@@ -55,7 +55,7 @@ schema.methods.toJSON = function toJSON(): IUserDocument {
   return obj;
 };
 
-schema.methods.verifyPassword = async function verifyPassword(plainPassword): Promise<boolean> {
+schema.methods.verifyPassword = async function verifyPassword(plainPassword: string): Promise<boolean> {
   return pwd.verify(plainPassword, this.password);
 };
 

@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-// @ts-nocheck
 import mongoose, { Document, Model } from 'mongoose';
 import * as models from './index';
 import * as types from '../../types';
@@ -49,69 +47,16 @@ const schema = new mongoose.Schema(
 
 schema.plugin(require('mongoose-autopopulate'));
 
-schema.statics.getSorts = function getSorts(query): any {
+schema.statics.getSorts = function getSorts(query: types.ApartmentQuery): any {
   return {
-    sortByRooms: (arg: string): any => query.sort(`${arg === 'desc' ? '-' : ''}roomsCount`),
-    // availableDates: async (arg: string): Promise<any> => {}, // todo logic
-    availableDates: async (arg: string): Promise<any> => {
-      const apartments = await models.apartment.find();
-      const minBooking = (a) => a.bookings.reduce((min, b) => {
-        if (b.startDate < min.startDate) {
-          return b;
-        }
-        if (b.startDate === min.startDate && b.endDate < min.endDate) {
-          return b;
-        }
-        return min;
-      }, a.bookings[0]);
-
-      apartments.forEach((apartment) => apartment.bookings.forEach((booking) => {
-        booking.startDate = Date.parse(booking.startDate);
-        booking.endDate = Date.parse(booking.endDate);
-      }));
-
-      const sorted = apartments.sort((a, b) => {
-        if (!a.bookings.length && !b.bookings.length) {
-          return 0;
-        }
-        if (!a.bookings.length) {
-          return -1;
-        }
-        if (!b.bookings.length) {
-          return 1;
-        }
-        const aMinBooking = minBooking(a);
-        const bMinBooking = minBooking(b);
-        if (aMinBooking.startDate < bMinBooking.startDate) {
-          return -1;
-        }
-        if (aMinBooking.startDate === bMinBooking.startDate) {
-          if (aMinBooking.endDate < bMinBooking.endDate) {
-            return -1;
-          } if (aMinBooking.endDate === bMinBooking.endDate) {
-            return 0;
-          }
-          return 1;
-        }
-        if (aMinBooking.startDate > bMinBooking.startDate) {
-          return 1;
-        }
-      });
-      query.map((docs) => docs.map((el, i) => {
-        console.log(i);
-        el = sorted[i];
-        return el;
-      }));
-      // console.log(query);
-      return query;
-    },
+    sortByRooms: (arg: string): types.ApartmentQuery => query.sort(`${arg === 'desc' ? '-' : ''}roomsCount`),
   };
 };
 
-schema.statics.getFilters = function getFilters(query): any {
+schema.statics.getFilters = function getFilters(query: types.ApartmentQuery): any {
   return {
-    rooms: (arg: string): any => query.where('roomsCount').equals(+arg),
-    startDate: async (searchParams: types.ISearchParams): Promise<any> => {
+    rooms: (arg: string): types.ApartmentQuery => query.where('roomsCount').equals(+arg),
+    startDate: async (searchParams: types.ISearchParams): Promise<types.ApartmentQuery> => {
       const newQuery = await models.apartment.find();
       const filteredIDs = newQuery.map((doc: IApartmentDocument) => {
         const some = doc.bookings.some(
@@ -122,7 +67,7 @@ schema.statics.getFilters = function getFilters(query): any {
         );
         return !some ? doc._id : undefined;
       });
-      query.where('_id').in(filteredIDs);
+      return query.where('_id').in(filteredIDs);
     },
   };
 };
@@ -144,9 +89,9 @@ export interface IApartment {
 export interface IApartmentDocument extends IApartment, Document {}
 
 export interface IApartmentModel extends Model<IApartmentDocument> {
-  getSorts(query: any): any;
-  sortBy(query: any, sort: string, value: any): any;
-  getFilters(query: any): any;
-  filterBy(query: any, filter: string, value: any): any;
+  getSorts(query: types.ApartmentQuery): types.ApartmentQuery;
+  getFilters(query: types.ApartmentQuery): types.ApartmentQuery;
+  sortBy(query: types.ApartmentQuery, sort: string, value: 'asc' | 'desc'): types.ApartmentQuery;
+  filterBy(query: types.ApartmentQuery, filter: string, value: number | types.ISearchParams): types.ApartmentQuery;
 }
 export default mongoose.model<IApartmentDocument, IApartmentModel>('Apartment', schema);

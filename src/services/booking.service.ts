@@ -23,7 +23,7 @@ export const create = async (
   const apartment = await models.apartment.findById(booking.apartment);
   if (!apartment) throw new UserInputError("Apartment you provided doesn't exist");
   const isAlreadyBooked = apartment.bookings.some(
-    (apsBooking) => isDateBetween(apsBooking.startDate, apsBooking.endDate, booking.startDate)
+    (apsBooking: IBookingDocument) => isDateBetween(apsBooking.startDate, apsBooking.endDate, booking.startDate)
       || isDateBetween(apsBooking.startDate, apsBooking.endDate, booking.endDate)
       || isDateBetween(booking.startDate, booking.endDate, apsBooking.startDate)
       || isDateBetween(booking.startDate, booking.endDate, apsBooking.endDate),

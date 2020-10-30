@@ -3,17 +3,15 @@ import {
   MiddlewareFn, ISearchParams, Variant, SortType,
 } from '../../types';
 
-const getAllApartments: MiddlewareFn = async (root, args: { searchParams?: ISearchParams }, context, info, next) => {
-  console.log(args);
+const getAllApartmentsOrVouchers: MiddlewareFn = async (root, args: { searchParams?: ISearchParams; admin: boolean }, context, info, next) => {
   const rules = {
     priceFrom: 'numeric|between:0,9999',
     priceTo: `numeric|between:${args?.searchParams?.priceFrom || 0},9999`,
     variant: `in:${Object.keys(Variant)}`,
     rooms: 'numeric|between:1,20',
-    // startDate: 'date|after_or_equal|notPast',
-    // endDate: 'date|after_or_equal:startDate',
+    startDate: `date${args?.admin ? '' : '|notPast'}`,
+    endDate: `date|after_or_equal:startDate${args?.admin ? '|notFuture' : ''}`,
     sortByPrice: `in:${Object.keys(SortType)}`,
-    // availableDates: '', todo
     sortByRooms: `in:${Object.keys(SortType)}`,
   };
 
@@ -22,4 +20,4 @@ const getAllApartments: MiddlewareFn = async (root, args: { searchParams?: ISear
   return next();
 };
 
-export default getAllApartments;
+export default getAllApartmentsOrVouchers;

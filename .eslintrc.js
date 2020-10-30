@@ -13,6 +13,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   'rules': { // 0 = off, 1 = warn, 2 = error
+    'no-param-reassign': 0,
     'no-console': 0,
     'eol-last': ['error', 'always'],
     'max-len': ['error', 300],

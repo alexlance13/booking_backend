@@ -1,7 +1,6 @@
 import mongoose, { Document, Model } from 'mongoose';
 import * as types from '../../types';
 import filterable from '../trades/filterable';
-import sortable from '../trades/sortable';
 import { IOrderDocument } from './Order';
 import { IUserDocument } from './User';
 
@@ -52,14 +51,13 @@ const schema = new mongoose.Schema(
 
 schema.plugin(require('mongoose-autopopulate'));
 
-schema.statics.getFilters = function getFilters(query): any {
+schema.statics.getFilters = function getFilters(query: types.VoucherQuery): any {
   return {
-    variant: (arg: string): any => query.where('variant').equals(arg),
+    variant: (arg: string): types.VoucherQuery => query.where('variant').equals(arg),
   };
 };
 
 filterable(schema);
-sortable(schema);
 
 export interface IVoucher {
   _id: types.ID | any;
@@ -76,9 +74,9 @@ export interface IVoucher {
 export interface IVoucherDocument extends IVoucher, Document {}
 
 export interface IVoucherModel extends Model<IVoucherDocument> {
-  getFilters(query: any): any;
-  filterBy(query: any, filter: string, value: any): any;
-  sortBy(query: any, sort: string, value: any): any;
+  getFilters(query: types.VoucherQuery): types.VoucherQuery;
+  filterBy(query: types.VoucherQuery, filter: string, value: 'ask' | 'desk'): types.VoucherQuery;
+
 }
 
 export default mongoose.model<IVoucherDocument, IVoucherModel>('Voucher', schema);

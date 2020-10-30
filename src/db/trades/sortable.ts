@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 function sortable(Schema: mongoose.Schema): any {
-  // eslint-disable-next-line no-param-reassign
   Schema.statics.sortBy = function sortBy(query, sort, value): any {
     const schemaSorts = Schema.statics.getSorts ? Schema.statics.getSorts(query) : {};
     const sorts = {

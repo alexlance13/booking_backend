@@ -26,7 +26,7 @@ const schema = new mongoose.Schema(
       requred: true,
     },
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
 schema.plugin(require('mongoose-autopopulate'));

@@ -3,7 +3,7 @@ import { config } from 'node-config-ts';
 
 export * as models from './models';
 
-mongoose.connect(config.DB_URI, {
+mongoose.connect(config.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,

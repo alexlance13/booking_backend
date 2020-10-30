@@ -28,7 +28,7 @@ export default gql`
     getAllUsers: [User!]!
 
     getApartmentById(id: String!): Apartment!
-    getAllApartments(searchParams: SearchParamsInput): [Apartment!]!
+    getAllApartments(searchParams: SearchParamsInput, admin: Boolean): [Apartment!]!
 
     getVoucherById(id: String!): Voucher!
     getAllVouchers(searchParams: SearchParamsInput): [Voucher!]!

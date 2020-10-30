@@ -12,7 +12,6 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 const server = new ApolloServer({
   schema,
-  // eslint-disable-next-line no-undef
   context: (context: any): any => ({
     auth: context.req.headers.authorization,
     operationName: context.req.body.operationName,
@@ -22,13 +21,15 @@ const app = express();
 server.applyMiddleware({ app });
 
 addMiddleware(schema, middlewares.auth.getUserFromHeader);
-// Adding all validator middlewares
+// Adding all mutation validator middlewares
 Object.keys(resolvers.Mutation).forEach((key): void => {
   if (middlewares.validators[key]) addMiddleware(schema, `Mutation.${key}`, middlewares.validators[key]);
 });
 
 addMiddleware(schema, 'Mutation', middlewares.auth.loggedInCheck);
-addMiddleware(schema, 'Query.getAllApartments', middlewares.validators.getAllApartments);
+
+addMiddleware(schema, 'Query.getAllApartments', middlewares.validators.getAllApartmentsOrVouchers);
+addMiddleware(schema, 'Query.getAllVouchers', middlewares.validators.getAllApartmentsOrVouchers);
 
 addMiddleware(schema, 'Mutation.createOrder', middlewares.auth.isBuyerCheck);
 addMiddleware(schema, 'Mutation.createBooking', middlewares.auth.isBuyerCheck);

@@ -8,4 +8,4 @@ export { default as editVoucher } from './editVoucher.validator';
 export { default as editUser } from './editUser.validator';
 export { default as editOrder } from './editOrder.validator';
 export { default as editBooking } from './editBooking.validator';
-export { default as getAllApartments } from './getAllApartments.validator';
+export { default as getAllApartmentsOrVouchers } from './getAllApartmentsOrVouchers.validator';
