@@ -28,10 +28,10 @@ export default gql`
     getAllUsers: [User!]!
 
     getApartmentById(id: String!): Apartment!
-    getAllApartments: [Apartment!]!
+    getAllApartments(searchParams: SearchParamsInput): [Apartment!]!
 
     getVoucherById(id: String!): Voucher!
-    getAllVouchers: [Voucher!]!
+    getAllVouchers(searchParams: SearchParamsInput): [Voucher!]!
 
     getBookingById(id: String!): Booking!
     getAllBookings: [Booking!]!
@@ -131,6 +131,7 @@ export default gql`
   enum Role {
     BUYER
     SELLER
+    ADMIN
   }
   input UserInput {
     first_name: String!
@@ -164,5 +165,18 @@ export default gql`
   input OrderOptionalInput {
     voucher: String
     quantity: Int
+  }
+
+  input SearchParamsInput {
+    type: String
+    priceFrom: String
+    priceTo: String
+    variant: String
+    rooms: String
+    startDate: String
+    endDate: String
+    sortByPrice: String
+    availableDates: String
+    sortByRooms: String
   }
 `;

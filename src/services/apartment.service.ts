@@ -2,10 +2,20 @@ import { UserInputError } from 'apollo-server-express';
 import { models } from '../db';
 import { IApartment, IApartmentDocument } from '../db/models/Apartment';
 import { IUser } from '../db/models/user';
-import { Optional } from '../types';
+import { ISearchParams, Optional } from '../types';
 
 export const getById = (id: string): Promise<IApartmentDocument> => models.apartment.findById(id).exec();
-export const getAll = (): Promise<IApartmentDocument[]> => models.apartment.find().exec();
+
+export const getAll = async (args: {searchParams: ISearchParams}): Promise<IApartmentDocument[]> => {
+  const query = models.apartment.find();
+  const promises = Object.entries(args.searchParams).map(([key, value]): Promise<any> => {
+    models.apartment.sortBy(query, key, value);
+    return models.apartment.filterBy(query, key, key === 'startDate' ? args.searchParams : value);
+  });
+  await Promise.all(promises);
+  const res = await query.exec();
+  return res;
+};
 
 export const create = async (apartment: IApartment, user: IUser): Promise<IApartmentDocument> => {
   const newApartment = await models.apartment.create({ ...apartment, seller: user._id });

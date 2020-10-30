@@ -18,16 +18,15 @@ export const edit = async (id: string, booking: Optional<IBooking>): Promise<IBo
 
 export const create = async (
   booking: { apartment: string; startDate: Date; endDate: Date },
-  user: IUser
+  user: IUser,
 ): Promise<IBookingDocument> => {
   const apartment = await models.apartment.findById(booking.apartment);
   if (!apartment) throw new UserInputError("Apartment you provided doesn't exist");
   const isAlreadyBooked = apartment.bookings.some(
-    (apsBooking) =>
-      isDateBetween(apsBooking.startDate, apsBooking.endDate, booking.startDate) ||
-      isDateBetween(apsBooking.startDate, apsBooking.endDate, booking.endDate) ||
-      isDateBetween(booking.startDate, booking.endDate, apsBooking.startDate) ||
-      isDateBetween(booking.startDate, booking.endDate, apsBooking.endDate)
+    (apsBooking) => isDateBetween(apsBooking.startDate, apsBooking.endDate, booking.startDate)
+      || isDateBetween(apsBooking.startDate, apsBooking.endDate, booking.endDate)
+      || isDateBetween(booking.startDate, booking.endDate, apsBooking.startDate)
+      || isDateBetween(booking.startDate, booking.endDate, apsBooking.endDate),
   );
   if (isAlreadyBooked) throw new UserInputError('This dates are already reserved');
   const newBooking = await models.booking.create({ ...booking, buyer: user._id });
@@ -38,8 +37,7 @@ export const create = async (
 
 export const remove = async (id: string, user: IUser): Promise<IBookingDocument> => {
   const booking = await models.booking.findById(id);
-  if (user._id.toString() !== (booking?.apartment as IApartmentDocument).seller._id.toString())
-    throw new ForbiddenError('Forbidden');
+  if (user._id.toString() !== (booking?.apartment as IApartmentDocument).seller._id.toString()) { throw new ForbiddenError('Forbidden'); }
   const newBooking = await models.booking.findByIdAndDelete(booking.id);
   console.log(`Booking ${newBooking} was successfully removed`);
   return newBooking;

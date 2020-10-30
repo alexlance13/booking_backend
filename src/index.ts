@@ -28,6 +28,7 @@ Object.keys(resolvers.Mutation).forEach((key): void => {
 });
 
 addMiddleware(schema, 'Mutation', middlewares.auth.loggedInCheck);
+addMiddleware(schema, 'Query.getAllApartments', middlewares.validators.getAllApartments);
 
 addMiddleware(schema, 'Mutation.createOrder', middlewares.auth.isBuyerCheck);
 addMiddleware(schema, 'Mutation.createBooking', middlewares.auth.isBuyerCheck);

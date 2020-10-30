@@ -7,7 +7,7 @@ const editBookingValidation: MiddlewareFn = (root, args: { booking: Optional<IBo
   const rules = {
     _id: 'required|alpha_num',
     apartment: 'string',
-    startDate: 'date',
+    startDate: 'date|notPast',
     endDate: 'after_or_equal:startDate',
   };
   const { booking, id } = args;

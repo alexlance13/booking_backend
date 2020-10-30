@@ -2,10 +2,19 @@ import { UserInputError } from 'apollo-server-express';
 import { models } from '../db';
 import { IUser } from '../db/models/user';
 import { IVoucher, IVoucherDocument } from '../db/models/Voucher';
-import { Optional } from '../types';
+import { ISearchParams, Optional } from '../types';
 
 export const getById = (id: string): Promise<IVoucherDocument> => models.voucher.findById(id).exec();
-export const getAll = (): Promise<IVoucherDocument[]> => models.voucher.find().exec();
+
+export const getAll = async (args: {searchParams: ISearchParams}): Promise<IVoucherDocument[]> => {
+  const query = models.voucher.find();
+  const promises = Object.entries(args.searchParams).map(([key, value]): Promise<any> => {
+    models.voucher.sortBy(query, key, value);
+    return models.voucher.filterBy(query, key, value);
+  });
+  await Promise.all(promises);
+  return query.exec();
+};
 
 export const create = async (voucher: IVoucher, user: IUser): Promise<IVoucherDocument> => {
   const newVoucher = await models.voucher.create({ ...voucher, seller: user._id });
