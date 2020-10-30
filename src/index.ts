@@ -1,4 +1,5 @@
-import { config } from 'node-config-ts';
+require('dotenv').config();
+
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { makeExecutableSchema } from 'graphql-tools';
@@ -40,5 +41,5 @@ addMiddleware(schema, 'Mutation.removeApartment', middlewares.auth.isSellerCheck
 addMiddleware(schema, 'Mutation.removeVoucher', middlewares.auth.isSellerCheck);
 
 db.once('open', () => {
-  app.listen({ port: 4000 }, () => console.log(`Server ready at ${config.HOST}${server.graphqlPath}`));
+  app.listen({ port: 4000 }, () => console.log(`Server ready at ${process.env.HOST}${server.graphqlPath}`));
 });

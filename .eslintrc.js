@@ -15,6 +15,7 @@ module.exports = {
   'rules': { // 0 = off, 1 = warn, 2 = error
     'no-param-reassign': 0,
     'no-console': 0,
+    'import/first': 0,
     'eol-last': ['error', 'always'],
     'max-len': ['error', 300],
     'linebreak-style': 0,

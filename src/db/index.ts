@@ -1,9 +1,8 @@
 import mongoose from 'mongoose';
-import { config } from 'node-config-ts';
 
 export * as models from './models';
 
-mongoose.connect(config.MONGODB_URI, {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
