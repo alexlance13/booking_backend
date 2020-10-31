@@ -64,7 +64,6 @@ schema.methods.jwtSign = async function jwtSign(): Promise<string> {
 };
 
 schema.statics.jwtVerify = async function jwtVerify(token: string): Promise<IUserDocument> {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { _id } = jwt.verify(token, process.env.SECRET_KEY) as IUserDocument;
   return this.findById(_id);
 };
