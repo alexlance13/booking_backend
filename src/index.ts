@@ -22,7 +22,7 @@ const server = new ApolloServer({
 const app = express();
 server.applyMiddleware({ app });
 
-// app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 addMiddleware(schema, middlewares.auth.getUserFromHeader);
 // Adding all mutation validator middlewares
