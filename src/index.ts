@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 import express from 'express';
+import path from 'path';
 import { ApolloServer } from 'apollo-server-express';
 import { makeExecutableSchema } from 'graphql-tools';
 import { addMiddleware } from 'graphql-add-middleware';
@@ -20,6 +21,8 @@ const server = new ApolloServer({
 });
 const app = express();
 server.applyMiddleware({ app });
+
+// app.use('/public', express.static(path.join(__dirname, 'public')));
 
 addMiddleware(schema, middlewares.auth.getUserFromHeader);
 // Adding all mutation validator middlewares
@@ -41,5 +44,5 @@ addMiddleware(schema, 'Mutation.removeApartment', middlewares.auth.isSellerCheck
 addMiddleware(schema, 'Mutation.removeVoucher', middlewares.auth.isSellerCheck);
 
 db.once('open', () => {
-  app.listen({ port: process.env.PORT }, () => console.log(`Server ready at ${process.env.HOST}${server.graphqlPath}`));
+  app.listen({ port: process.env.PORT || 4000 }, () => console.log(`Server ready at ${process.env.HOST}${server.graphqlPath}`));
 });

@@ -16,21 +16,27 @@
   },
   "dependencies": {
     "@types/validatorjs": "^3.15.0",
-    "apollo-server-express": "2.17.0",
+    "apollo-server-express": "^2.17.0",
     "dotenv": "^8.2.0",
-    "ts-node": "^9.0.0",
     "express": "^4.17.1",
     "graphql-add-middleware": "^0.3.7",
-    "graphql-tools": "^6.2.4",
+    "graphql-tools": "^6.2.6",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.9",
     "mongoose-autopopulate": "^0.12.2",
     "node-config-ts": "^3.1.0",
     "password-hash": "^1.2.2",
+    "ts-node": "^9.0.0",
     "validatorjs": "^3.20.0"
   },
+  "engines": {
+    "node": "12.16.3"
+  },
   "scripts": {
-    "lint": "\\node_modules\\eslint\\bin\\eslint.js src\\**.ts --fix",
-    "start": "ts-node src/index.ts"
+    "start": "node dist/index.js",
+    "postinstall": "tsc",
+    "watch-node": "nodemon dist/index.js",
+    "watch-ts": "tsc -w",
+    "lint": "\\node_modules\\eslint\\bin\\eslint.js src\\**.ts --fix"
   }
 }
