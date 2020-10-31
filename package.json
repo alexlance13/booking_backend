@@ -12,8 +12,7 @@
     "eslint-config-airbnb-typescript": "^11.0.0",
     "eslint-plugin-import": "^2.18.2",
     "ts-node": "^9.0.0",
-    "ts-node-dev": "^1.0.0-pre.65",
-    "typescript": "^4.0.3"
+    "ts-node-dev": "^1.0.0-pre.65"
   },
   "dependencies": {
     "typescript": "^4.0.3",
@@ -34,8 +33,10 @@
   },
   "scripts": {
     "start": "node dist/index.js",
-    "postinstall": "tsc && mv -i -v public dist/ && rm -v -rf src",
+    "build": "tsc",
+    "postinstall": "npm run build",
     "watch-node": "nodemon dist/index.js",
+    "watch-ts": "build -w",
     "deploy": "git add . && git commit -m heroku && git push origin master"
   }
 }
