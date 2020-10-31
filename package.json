@@ -26,6 +26,7 @@
     "mongoose-autopopulate": "^0.12.2",
     "nodemon": "^2.0.6",
     "password-hash": "^1.2.2",
+    "tsc": "^1.20150623.0",
     "validatorjs": "^3.20.0"
   },
   "engines": {
