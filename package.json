@@ -27,13 +27,14 @@
     "nodemon": "^2.0.6",
     "password-hash": "^1.2.2",
     "tsc": "^1.20150623.0",
+    "tsc": "tsc",
     "validatorjs": "^3.20.0"
   },
   "engines": {
     "node": "12.16.3"
   },
   "scripts": {
-    "postinstall": "npx tsc && mv -i -v public dist/ && rm -v -rf src",
+    "postinstall": "npm run tsc && mv -i -v public dist/ && rm -v -rf src",
     "start": "node dist/index.js",
     "watch-node": "nodemon dist/index.js",
     "watch-ts": "tsc -w",
