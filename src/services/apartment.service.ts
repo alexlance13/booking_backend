@@ -6,7 +6,7 @@ import { ApartmentQuery, ISearchParams, Optional } from '../types';
 
 export const getById = (id: string): Promise<IApartmentDocument> => models.apartment.findById(id).exec();
 
-export const getAll = async (args: {searchParams: ISearchParams; admin?: boolean}): Promise<ApartmentQuery> => {
+export const getAll = async (args: { searchParams: ISearchParams; admin?: boolean }): Promise<ApartmentQuery> => {
   const query = models.apartment.find();
   const promises = Object.entries(args.searchParams).map(([key, value]): ApartmentQuery => {
     models.apartment.sortBy(query, key, value);

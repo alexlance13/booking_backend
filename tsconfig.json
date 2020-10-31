@@ -12,7 +12,7 @@
     "suppressExcessPropertyErrors": true,
     "outDir": "./dist",
     "lib": ["ES2020.Promise"],
-    "incremental": true
+    "incremental": true,
   },
   "include": ["src/**/*.ts", "index.ts"],
   "exclude": ["node_modules", "dist"]

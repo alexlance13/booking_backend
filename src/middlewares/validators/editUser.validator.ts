@@ -3,7 +3,7 @@ import validate from '../../helpers/validation.helper';
 import { MiddlewareFn, Optional, Role } from '../../types';
 import { IUser } from '../../db/models/User';
 
-const editUserValidation: MiddlewareFn = (root, args: {user: Optional<IUser>; id: string}, context, info, next) => {
+const editUserValidation: MiddlewareFn = (root, args: { user: Optional<IUser>; id: string }, context, info, next) => {
   const rules = {
     _id: 'required|alpha_num',
     first_name: 'min:3|max:50|userName',

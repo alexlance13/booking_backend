@@ -11,9 +11,8 @@ const createVoucherValidation: MiddlewareFn = async (root, args: { voucher: IVou
     variant: `required|in:${Object.keys(Variant)}`,
     quantity: 'required|numeric|min:1',
   };
-  const { voucher } = args;
 
-  validate(rules, voucher);
+  validate(rules, args.voucher);
 
   return next();
 };

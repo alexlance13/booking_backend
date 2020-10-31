@@ -15,7 +15,7 @@ const getAllApartmentsOrVouchers: MiddlewareFn = async (root, args: { searchPara
     sortByRooms: `in:${Object.keys(SortType)}`,
   };
 
-  validate(rules, args?.searchParams);
+  validate(rules, args.searchParams);
 
   return next();
 };

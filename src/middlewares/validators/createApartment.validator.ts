@@ -10,9 +10,8 @@ const createApartmentValidation: MiddlewareFn = async (root, args: { apartment: 
     price: 'required|numeric|min:1',
     roomsCount: 'required|numeric|min:1|max:20',
   };
-  const { apartment } = args;
 
-  validate(rules, apartment);
+  validate(rules, args.apartment);
 
   return next();
 };

@@ -1,12 +1,11 @@
 import { models } from '../../db';
 
 const auth = async (root, args, context, info, next): Promise<any> => {
-  if (context?.auth?.split(' ')[0] === 'Bearer') {
-    const token = context.auth.split(' ')[1];
-    if (await models.user.jwtVerify(token)) {
-      context.user = await models.user.jwtVerify(token);
-    }
-  } else context.user = null;
+  const [type, token] = context?.auth?.split(' ')[0];
+  if (type === 'Bearer') {
+    const user = await models.user.jwtVerify(token);
+    if (user) context.user = user;
+  }
   return next();
 };
 

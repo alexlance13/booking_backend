@@ -29,7 +29,7 @@ export interface IUser {
   role: string;
 }
 export interface IBookingInput { apartment: string; buyer: string; startDate: Date; endDate: Date }
-export interface IOrderInput {voucher: string; buyer: string; quantity: number}
+export interface IOrderInput { voucher: string; buyer: string; quantity: number }
 export interface IAuthUser { token: string; user: IUserDocument }
 export type ApartmentQuery = DocumentQuery<IApartmentDocument[], IApartmentDocument, {}>;
 export type VoucherQuery = DocumentQuery<IVoucherDocument[], IVoucherDocument, {}>;

@@ -6,7 +6,7 @@ import { ISearchParams, Optional, VoucherQuery } from '../types';
 
 export const getById = (id: string): Promise<IVoucherDocument> => models.voucher.findById(id).exec();
 
-export const getAll = async (args: {searchParams: ISearchParams}): Promise<VoucherQuery> => {
+export const getAll = async (args: { searchParams: ISearchParams }): Promise<VoucherQuery> => {
   const query = models.voucher.find();
   const promises = Object.entries(args.searchParams).map(([key, value]): VoucherQuery => {
     models.voucher.sortBy(query, key, value);

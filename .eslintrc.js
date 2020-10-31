@@ -37,6 +37,16 @@ module.exports = {
         'format': ['camelCase']
       },
     ],
+    '@typescript-eslint/type-annotation-spacing': ['error', {
+      'before': false,
+      'after': true,
+      overrides: {
+        arrow: {
+          before: true,
+          after: true
+        }
+      }
+    }],
     '@typescript-eslint/no-dynamic-delete': ['error'],
     '@typescript-eslint/no-misused-new': ['error'],
     '@typescript-eslint/no-throw-literal': ['error'],

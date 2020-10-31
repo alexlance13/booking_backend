@@ -5,6 +5,7 @@ import { IUser } from '../db/models/User';
 import { Optional } from '../types';
 
 export const getById = (id: string): Promise<IOrderDocument> => models.order.findById(id).exec();
+
 export const getAll = (): Promise<IOrderDocument[]> => models.order.find().exec();
 
 export const edit = async (id: string, order: Optional<IOrder>): Promise<IOrderDocument> => {
@@ -21,7 +22,7 @@ export const remove = async (id: string): Promise<IOrderDocument> => {
   return deletedOrder;
 };
 
-export const create = async (order: {voucher: string; buyer: string; quantity: number}, user: IUser): Promise<IOrderDocument> => {
+export const create = async (order: { voucher: string; buyer: string; quantity: number }, user: IUser): Promise<IOrderDocument> => {
   const voucher = await models.voucher.findById(order.voucher);
   if (!voucher) throw new UserInputError('Voucher you provided doesn\'t exist');
   if (order.quantity > voucher.quantity) throw new UserInputError('You can\'t order more vouchers than seller has');

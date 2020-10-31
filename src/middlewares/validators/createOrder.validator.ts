@@ -7,9 +7,8 @@ const createOrderValidation: MiddlewareFn = async (root, args: { order: IOrder }
     voucher: 'required|string',
     quantity: 'required|numeric|min:1',
   };
-  const { order } = args;
 
-  validate(rules, order);
+  validate(rules, args.order);
 
   return next();
 };

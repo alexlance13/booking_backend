@@ -10,9 +10,8 @@ const createUserValidation: MiddlewareFn = async (root, args: { user: IUser }, c
     role: `required|in:${Object.keys(Role)}`,
     password: 'required|alpha_num|min:6|max:50',
   };
-  const { user } = args;
 
-  validate(rules, user);
+  validate(rules, args.user);
 
   return next();
 };

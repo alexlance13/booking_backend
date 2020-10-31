@@ -1,7 +1,7 @@
 import mongoose, { Document, Model } from 'mongoose';
 import * as types from '../../types';
-import filterable from '../trades/filterable';
-import sortable from '../trades/sortable';
+import filterable from '../traits/filterable';
+import sortable from '../traits/sortable';
 import { IOrderDocument } from './Order';
 import { IUserDocument } from './User';
 

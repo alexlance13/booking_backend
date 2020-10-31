@@ -3,8 +3,8 @@ import * as models from './index';
 import * as types from '../../types';
 import { IBookingDocument } from './Booking';
 import { IUserDocument } from './User';
-import sortable from '../trades/sortable';
-import filterable from '../trades/filterable';
+import sortable from '../traits/sortable';
+import filterable from '../traits/filterable';
 import isDateBetween from '../../helpers/date.helper';
 
 const ID = mongoose.Types.ObjectId;

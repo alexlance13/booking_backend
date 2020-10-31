@@ -7,6 +7,7 @@ import isDateBetween from '../helpers/date.helper';
 import { IApartmentDocument } from '../db/models/Apartment';
 
 export const getById = (id: string): Promise<IBookingDocument> => models.booking.findById(id).exec();
+
 export const getAll = (): Promise<IBookingDocument[]> => models.booking.find().exec();
 
 export const edit = async (id: string, booking: Optional<IBooking>): Promise<IBookingDocument> => {
@@ -37,7 +38,7 @@ export const create = async (
 
 export const remove = async (id: string, user: IUser): Promise<IBookingDocument> => {
   const booking = await models.booking.findById(id);
-  if (user._id.toString() !== (booking?.apartment as IApartmentDocument).seller._id.toString()) { throw new ForbiddenError('Forbidden'); }
+  if (user._id.toString() !== (booking?.apartment as IApartmentDocument).seller._id.toString()) throw new ForbiddenError('Forbidden');
   const newBooking = await models.booking.findByIdAndDelete(booking.id);
   console.log(`Booking ${newBooking} was successfully removed`);
   return newBooking;
