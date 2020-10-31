@@ -1,4 +1,4 @@
-import { IBookingDocument } from '../../db/models/booking';
+import { IBookingDocument } from '../../db/models/Booking';
 import { getAll, getById } from '../../services/booking.service';
 
 export default {

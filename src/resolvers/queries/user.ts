@@ -1,4 +1,4 @@
-import { IUser, IUserDocument } from '../../db/models/user';
+import { IUser, IUserDocument } from '../../db/models/User';
 import { getAll, getById, login } from '../../services/user.service';
 
 export default {

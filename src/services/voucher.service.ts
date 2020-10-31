@@ -1,6 +1,6 @@
 import { UserInputError } from 'apollo-server-express';
 import { models } from '../db';
-import { IUser } from '../db/models/user';
+import { IUser } from '../db/models/User';
 import { IVoucher, IVoucherDocument } from '../db/models/Voucher';
 import { ISearchParams, Optional, VoucherQuery } from '../types';
 

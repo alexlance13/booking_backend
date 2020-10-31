@@ -1,7 +1,7 @@
 import { UserInputError } from 'apollo-server-express';
 import { models } from '../db';
 import { IOrder, IOrderDocument } from '../db/models/Order';
-import { IUser } from '../db/models/user';
+import { IUser } from '../db/models/User';
 import { Optional } from '../types';
 
 export const getById = (id: string): Promise<IOrderDocument> => models.order.findById(id).exec();

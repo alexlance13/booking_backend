@@ -1,4 +1,4 @@
-import { IApartmentDocument } from '../../db/models/apartment';
+import { IApartmentDocument } from '../../db/models/Apartment';
 import { getAll, getById } from '../../services/apartment.service';
 import { ApartmentQuery, ISearchParams } from '../../types';
 

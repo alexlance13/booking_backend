@@ -1,7 +1,7 @@
 import { ForbiddenError, UserInputError } from 'apollo-server-express';
 import { models } from '../db';
 import { IBooking, IBookingDocument } from '../db/models/Booking';
-import { IUser } from '../db/models/user';
+import { IUser } from '../db/models/User';
 import { Optional } from '../types';
 import isDateBetween from '../helpers/date.helper';
 import { IApartmentDocument } from '../db/models/Apartment';

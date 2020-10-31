@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { IVoucher } from '../../db/models/voucher';
+import { IVoucher } from '../../db/models/Voucher';
 import validate from '../../helpers/validation.helper';
 import { MiddlewareFn, Optional, Variant } from '../../types';
 

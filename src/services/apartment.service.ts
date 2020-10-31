@@ -1,7 +1,7 @@
 import { UserInputError } from 'apollo-server-express';
 import { models } from '../db';
 import { IApartment, IApartmentDocument } from '../db/models/Apartment';
-import { IUser } from '../db/models/user';
+import { IUser } from '../db/models/User';
 import { ApartmentQuery, ISearchParams, Optional } from '../types';
 
 export const getById = (id: string): Promise<IApartmentDocument> => models.apartment.findById(id).exec();

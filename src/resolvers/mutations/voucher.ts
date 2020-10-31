@@ -1,7 +1,7 @@
 import { create, edit, remove } from '../../services/voucher.service';
 import { IVoucher, IVoucherDocument } from '../../db/models/Voucher';
 import { Optional } from '../../types';
-import { IUser } from '../../db/models/user';
+import { IUser } from '../../db/models/User';
 
 export default {
   createVoucher: (obj: any, args: {voucher: IVoucher}, context: {user: IUser}): Promise<IVoucherDocument> => create(args.voucher, context.user),

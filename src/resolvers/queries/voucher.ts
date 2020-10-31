@@ -1,4 +1,4 @@
-import { IVoucherDocument } from '../../db/models/voucher';
+import { IVoucherDocument } from '../../db/models/Voucher';
 import { getAll, getById } from '../../services/voucher.service';
 import { VoucherQuery } from '../../types';
 

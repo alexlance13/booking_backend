@@ -1,7 +1,7 @@
 import { create, edit, remove } from '../../services/booking.service';
 import { IBooking, IBookingDocument } from '../../db/models/Booking';
 import { Optional, IBookingInput } from '../../types';
-import { IUser } from '../../db/models/user';
+import { IUser } from '../../db/models/User';
 
 export default {
   createBooking: (obj: any, args: { booking: IBookingInput }, context: { user: IUser }): Promise<IBookingDocument> => create(args.booking, context.user),

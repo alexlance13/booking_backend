@@ -1,4 +1,4 @@
-import { IOrderDocument } from '../../db/models/order';
+import { IOrderDocument } from '../../db/models/Order';
 import { getAll, getById } from '../../services/order.service';
 
 export default {

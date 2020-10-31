@@ -1,7 +1,7 @@
 import { create, edit, remove } from '../../services/apartment.service';
 import { IApartment, IApartmentDocument } from '../../db/models/Apartment';
 import { Optional } from '../../types';
-import { IUser } from '../../db/models/user';
+import { IUser } from '../../db/models/User';
 
 export default {
   createApartment: (obj: any, args: {apartment: IApartment}, context: {user: IUser}): Promise<IApartmentDocument> => create(args.apartment, context.user),
