@@ -2,7 +2,7 @@ import userResolver from './user';
 import voucherResolver from './voucher';
 import apartmentResolver from './apartment';
 import orderResolver from './order';
-import bookingResolver from './booking';
+import bookingResolver from './Booking';
 
 export default {
   Query: {

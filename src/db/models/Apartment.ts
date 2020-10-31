@@ -1,7 +1,7 @@
 import mongoose, { Document, Model } from 'mongoose';
 import * as models from './index';
 import * as types from '../../types';
-import { IBookingDocument } from './booking';
+import { IBookingDocument } from './Booking';
 import { IUserDocument } from './User';
 import sortable from '../trades/sortable';
 import filterable from '../trades/filterable';

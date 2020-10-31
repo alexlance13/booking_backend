@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import pwd from 'password-hash';
 import * as types from '../../types';
 import { IApartmentDocument } from './Apartment';
-import { IBookingDocument } from './booking';
+import { IBookingDocument } from './Booking';
 import { IOrderDocument } from './Order';
 import { IVoucherDocument } from './Voucher';
 

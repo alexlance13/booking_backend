@@ -1,7 +1,7 @@
 import userResolver from './user';
 import apartmentResolver from './apartment';
 import voucherResolver from './voucher';
-import bookingResolver from './booking';
+import bookingResolver from './Booking';
 import orderResolver from './order';
 
 export default {
