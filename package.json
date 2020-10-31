@@ -29,7 +29,6 @@
     "password-hash": "^1.2.2",
     "tcs": "^10.0.0",
     "ts-node": "^9.0.0",
-    "tsc": "^4.0.2",
     "validatorjs": "^3.20.0"
   },
   "engines": {
