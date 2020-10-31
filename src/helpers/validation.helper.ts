@@ -14,7 +14,6 @@ Validator.register('lessThenMonth', (value: string, requirement: string) => (Dat
   'You can\'t book apartment for more then a 30 days');
 
 export default function validate(rules: {[key: string]: string}, data: {[key: string]: any}, minKeysLength = 2): void {
-  console.log(data);
   const keysLength = Object.keys(data);
   const validation = new Validator(data, rules);
   if (keysLength.length < minKeysLength) throw new UserInputError('Validation error.');

@@ -37,6 +37,7 @@ export const remove = async (id: string): Promise<IUserDocument> => {
 
 export const create = async (user: IUser): Promise<IAuthUser> => {
   if (await models.user.findOne({ email: user.email })) throw new AuthenticationError('Email already exist');
+  if (user.role === 'ADMIN') throw new ForbiddenError("You can't create an Admin");
   const createdUser = await models.user.create(user);
   const token = await createdUser.jwtSign();
   console.log(`User ${createdUser} are successfully created`);

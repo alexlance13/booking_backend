@@ -1,6 +1,7 @@
 import mongoose, { Document, Model } from 'mongoose';
 import * as types from '../../types';
 import filterable from '../trades/filterable';
+import sortable from '../trades/sortable';
 import { IOrderDocument } from './Order';
 import { IUserDocument } from './User';
 
@@ -58,6 +59,7 @@ schema.statics.getFilters = function getFilters(query: types.VoucherQuery): any 
 };
 
 filterable(schema);
+sortable(schema);
 
 export interface IVoucher {
   _id: types.ID | any;
@@ -76,7 +78,7 @@ export interface IVoucherDocument extends IVoucher, Document {}
 export interface IVoucherModel extends Model<IVoucherDocument> {
   getFilters(query: types.VoucherQuery): types.VoucherQuery;
   filterBy(query: types.VoucherQuery, filter: string, value: 'ask' | 'desk'): types.VoucherQuery;
-
+  sortBy(query: types.VoucherQuery, sort: string, value: 'asc' | 'desc'): types.VoucherQuery;
 }
 
 export default mongoose.model<IVoucherDocument, IVoucherModel>('Voucher', schema);

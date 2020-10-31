@@ -8,7 +8,10 @@ export const getById = (id: string): Promise<IVoucherDocument> => models.voucher
 
 export const getAll = async (args: {searchParams: ISearchParams}): Promise<VoucherQuery> => {
   const query = models.voucher.find();
-  const promises = Object.entries(args.searchParams).map(([key, value]): VoucherQuery => models.voucher.filterBy(query, key, value));
+  const promises = Object.entries(args.searchParams).map(([key, value]): VoucherQuery => {
+    models.voucher.sortBy(query, key, value);
+    return models.voucher.filterBy(query, key, value);
+  });
   await Promise.all(promises);
   return query.exec();
 };
