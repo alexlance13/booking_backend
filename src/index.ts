@@ -41,5 +41,5 @@ addMiddleware(schema, 'Mutation.removeApartment', middlewares.auth.isSellerCheck
 addMiddleware(schema, 'Mutation.removeVoucher', middlewares.auth.isSellerCheck);
 
 db.once('open', () => {
-  app.listen({ port: 4000 }, () => console.log(`Server ready at ${process.env.HOST}${server.graphqlPath}`));
+  app.listen({ port: process.env.PORT }, () => console.log(`Server ready at ${process.env.HOST}${server.graphqlPath}`));
 });
