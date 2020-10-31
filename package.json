@@ -32,8 +32,10 @@
     "node": "12.16.3"
   },
   "scripts": {
+    "postinstall": "tsc && mv -i -v public dist/ && rm -v -rf src",
     "start": "node dist/index.js",
     "watch-node": "nodemon dist/index.js",
+    "watch-ts": "tsc -w",
     "deploy": "git add . && git commit -m heroku && git push origin master"
   }
 }
