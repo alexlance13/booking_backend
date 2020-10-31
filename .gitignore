@@ -7,10 +7,11 @@
 /coverage
 
 # production
-/build
 /config
 
+
 # misc
+.vscode
 .DS_Store
 .env.local
 .env.development.local
