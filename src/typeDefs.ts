@@ -176,7 +176,6 @@ export default gql`
     startDate: String
     endDate: String
     sortByPrice: String
-    availableDates: String
     sortByRooms: String
   }
 `;

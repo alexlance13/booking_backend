@@ -6,6 +6,7 @@ import { IApartmentDocument } from './Apartment';
 import { IBookingDocument } from './Booking';
 import { IOrderDocument } from './Order';
 import { IVoucherDocument } from './Voucher';
+import { Role } from '../../types/enums';
 
 const schema = new mongoose.Schema(
   {
@@ -29,7 +30,7 @@ const schema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: Object.keys(types.Role),
+      enum: Object.keys(Role),
     },
     password: {
       type: String,
@@ -83,7 +84,7 @@ export interface IUser {
 
 export interface IUserDocument extends IUser, Document {
   jwtSign(): Promise<string>;
-  verifyPassword(plainPassword: any): Promise<boolean>;
+  verifyPassword(plainPassword: string): Promise<boolean>;
 }
 export interface IUserModel extends Model<IUserDocument> {
   jwtVerify(token: string): IUserDocument;

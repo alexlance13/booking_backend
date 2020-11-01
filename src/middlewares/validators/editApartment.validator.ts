@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
+import { middlewareFn } from 'graphql-add-middleware';
 import validate from '../../helpers/validation.helper';
-import { MiddlewareFn, Optional } from '../../types';
+import { Optional } from '../../types';
 import { IApartment } from '../../db/models/Apartment';
 
-const editApartmentValidation: MiddlewareFn = (root, args: { apartment: Optional<IApartment>; id: string}, context, info, next) => {
+const editApartmentValidation: middlewareFn = (root, args: { apartment: Optional<IApartment>; id: string}, context, info, next) => {
   const rules = {
     _id: 'required|alpha_num',
     name: 'string|min:3|max:50',

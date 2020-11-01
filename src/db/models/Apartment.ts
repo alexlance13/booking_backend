@@ -6,6 +6,7 @@ import { IUserDocument } from './User';
 import sortable from '../traits/sortable';
 import filterable from '../traits/filterable';
 import isDateBetween from '../../helpers/date.helper';
+import { SortType } from '../../types/enums';
 
 const ID = mongoose.Types.ObjectId;
 
@@ -47,13 +48,13 @@ const schema = new mongoose.Schema(
 
 schema.plugin(require('mongoose-autopopulate'));
 
-schema.statics.getSorts = function getSorts(query: types.ApartmentQuery): any {
+schema.statics.getSorts = function getSorts(query: types.ApartmentQuery): types.ISorts {
   return {
     sortByRooms: (arg: string): types.ApartmentQuery => query.sort(`${arg === 'desc' ? '-' : ''}roomsCount`),
   };
 };
 
-schema.statics.getFilters = function getFilters(query: types.ApartmentQuery): any {
+schema.statics.getFilters = function getFilters(query: types.ApartmentQuery): types.IFilters {
   return {
     rooms: (arg: string): types.ApartmentQuery => query.where('roomsCount').equals(+arg),
     startDate: async (searchParams: types.ISearchParams): Promise<types.ApartmentQuery> => {
@@ -91,7 +92,7 @@ export interface IApartmentDocument extends IApartment, Document {}
 export interface IApartmentModel extends Model<IApartmentDocument> {
   getSorts(query: types.ApartmentQuery): types.ApartmentQuery;
   getFilters(query: types.ApartmentQuery): types.ApartmentQuery;
-  sortBy(query: types.ApartmentQuery, sort: string, value: 'asc' | 'desc'): types.ApartmentQuery;
+  sortBy(query: types.ApartmentQuery, sort: string, value: SortType): types.ApartmentQuery;
   filterBy(query: types.ApartmentQuery, filter: string, value: number | types.ISearchParams): types.ApartmentQuery;
 }
 export default mongoose.model<IApartmentDocument, IApartmentModel>('Apartment', schema);

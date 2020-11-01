@@ -1,5 +1,6 @@
 import mongoose, { Document, Model } from 'mongoose';
 import * as types from '../../types';
+import { SortType, Variant } from '../../types/enums';
 import filterable from '../traits/filterable';
 import sortable from '../traits/sortable';
 import { IOrderDocument } from './Order';
@@ -33,7 +34,7 @@ const schema = new mongoose.Schema(
 
     variant: {
       type: String,
-      enum: Object.keys(types.Variant),
+      enum: Object.keys(Variant),
     },
     quantity: {
       type: Number,
@@ -52,7 +53,7 @@ const schema = new mongoose.Schema(
 
 schema.plugin(require('mongoose-autopopulate'));
 
-schema.statics.getFilters = function getFilters(query: types.VoucherQuery): any {
+schema.statics.getFilters = function getFilters(query: types.VoucherQuery): types.IFilters {
   return {
     variant: (arg: string): types.VoucherQuery => query.where('variant').equals(arg),
   };
@@ -67,7 +68,7 @@ export interface IVoucher {
   description: string;
   image: string;
   price: number;
-  variant: types.Variant;
+  variant: Variant;
   quantity: number;
   seller: IUserDocument;
   orders: IOrderDocument[];
@@ -77,8 +78,8 @@ export interface IVoucherDocument extends IVoucher, Document {}
 
 export interface IVoucherModel extends Model<IVoucherDocument> {
   getFilters(query: types.VoucherQuery): types.VoucherQuery;
-  filterBy(query: types.VoucherQuery, filter: string, value: 'ask' | 'desk'): types.VoucherQuery;
-  sortBy(query: types.VoucherQuery, sort: string, value: 'asc' | 'desc'): types.VoucherQuery;
+  filterBy(query: types.VoucherQuery, filter: string, value: SortType): types.VoucherQuery;
+  sortBy(query: types.VoucherQuery, sort: string, value: SortType): types.VoucherQuery;
 }
 
 export default mongoose.model<IVoucherDocument, IVoucherModel>('Voucher', schema);

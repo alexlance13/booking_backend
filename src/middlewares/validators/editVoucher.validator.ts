@@ -1,9 +1,11 @@
+import { middlewareFn } from 'graphql-add-middleware';
 import mongoose from 'mongoose';
 import { IVoucher } from '../../db/models/Voucher';
 import validate from '../../helpers/validation.helper';
-import { MiddlewareFn, Optional, Variant } from '../../types';
+import { Optional } from '../../types';
+import { Variant } from '../../types/enums';
 
-const editVoucherValidation: MiddlewareFn = (root, args: { voucher: Optional<IVoucher>; id: string }, context, info, next) => {
+const editVoucherValidation: middlewareFn = (root, args: { voucher: Optional<IVoucher>; id: string }, context, info, next) => {
   const rules = {
     _id: 'required|alpha_num',
     name: 'string|min:3|max:50',

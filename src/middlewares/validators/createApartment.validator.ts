@@ -1,8 +1,8 @@
+import { middlewareFn } from 'graphql-add-middleware';
 import validate from '../../helpers/validation.helper';
-import { MiddlewareFn } from '../../types';
 import { IApartment } from '../../db/models/Apartment';
 
-const createApartmentValidation: MiddlewareFn = async (root, args: { apartment: IApartment }, context, info, next) => {
+const createApartmentValidation: middlewareFn = async (root, args: { apartment: IApartment }, context, info, next) => {
   const rules = {
     name: 'required|string|min:3|max:50',
     description: 'required|string|min:3|max:800',

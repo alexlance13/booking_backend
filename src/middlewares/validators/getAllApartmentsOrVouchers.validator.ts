@@ -1,9 +1,9 @@
+import { middlewareFn } from 'graphql-add-middleware';
 import validate from '../../helpers/validation.helper';
-import {
-  MiddlewareFn, ISearchParams, Variant, SortType,
-} from '../../types';
+import { ISearchParams } from '../../types';
+import { SortType, Variant } from '../../types/enums';
 
-const getAllApartmentsOrVouchers: MiddlewareFn = async (root, args: { searchParams?: ISearchParams; admin: boolean }, context, info, next) => {
+const getAllApartmentsOrVouchers: middlewareFn = async (root, args: { searchParams?: ISearchParams; admin: boolean }, context, info, next) => {
   const rules = {
     priceFrom: 'numeric|between:0,9999',
     priceTo: `numeric|between:${args?.searchParams?.priceFrom || 0},9999`,

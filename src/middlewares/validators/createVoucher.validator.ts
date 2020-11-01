@@ -1,8 +1,9 @@
+import { middlewareFn } from 'graphql-add-middleware';
 import validate from '../../helpers/validation.helper';
-import { MiddlewareFn, Variant } from '../../types';
 import { IVoucher } from '../../db/models/Voucher';
+import { Variant } from '../../types/enums';
 
-const createVoucherValidation: MiddlewareFn = async (root, args: { voucher: IVoucher }, context, info, next) => {
+const createVoucherValidation: middlewareFn = async (root, args: { voucher: IVoucher }, context, info, next) => {
   const rules = {
     name: 'required|string|min:3|max:50',
     description: 'required|string|min:3|max:800',

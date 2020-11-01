@@ -4,7 +4,7 @@ import { IOrderInput, Optional } from '../../types';
 import { IUser } from '../../db/models/User';
 
 export default {
-  createOrder: (obj: any, args: { order: IOrderInput }, context: { user: IUser}): Promise<IOrderDocument> => create(args.order, context.user),
-  editOrder: (obj: any, args: { id: string; order: Optional<IOrder> }): Promise<IOrderDocument> => edit(args.id, args.order),
-  removeOrder: (obj: any, args: { id: string; order: IOrder }): Promise<IOrderDocument> => remove(args.id),
+  createOrder: (source, args: { order: IOrderInput }, context: { user: IUser}): Promise<IOrderDocument> => create(args.order, context.user),
+  editOrder: (source, args: { id: string; order: Optional<IOrder> }): Promise<IOrderDocument> => edit(args.id, args.order),
+  removeOrder: (source, args: { id: string; order: IOrder }): Promise<IOrderDocument> => remove(args.id),
 };

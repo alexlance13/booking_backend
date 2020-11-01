@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
+import { middlewareFn } from 'graphql-add-middleware';
 import validate from '../../helpers/validation.helper';
-import { MiddlewareFn, Optional, Role } from '../../types';
+import { Optional } from '../../types';
 import { IUser } from '../../db/models/User';
+import { Role } from '../../types/enums';
 
-const editUserValidation: MiddlewareFn = (root, args: { user: Optional<IUser>; id: string }, context, info, next) => {
+const editUserValidation: middlewareFn = (root, args: { user: Optional<IUser>; id: string }, context, info, next) => {
   const rules = {
     _id: 'required|alpha_num',
     first_name: 'min:3|max:50|userName',

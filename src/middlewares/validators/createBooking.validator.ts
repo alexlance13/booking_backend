@@ -1,8 +1,8 @@
+import { middlewareFn } from 'graphql-add-middleware';
 import validate from '../../helpers/validation.helper';
-import { MiddlewareFn } from '../../types';
 import { IBooking } from '../../db/models/Booking';
 
-const createBookingValidation: MiddlewareFn = (root, args: { booking: IBooking }, context, info, next) => {
+const createBookingValidation: middlewareFn = (root, args: { booking: IBooking }, context, info, next) => {
   const rules = {
     apartment: 'required|string',
     startDate: 'required|myDateFormat|notPast|date',

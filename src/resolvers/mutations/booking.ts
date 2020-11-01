@@ -4,7 +4,7 @@ import { Optional, IBookingInput } from '../../types';
 import { IUser } from '../../db/models/User';
 
 export default {
-  createBooking: (obj: any, args: { booking: IBookingInput }, context: { user: IUser }): Promise<IBookingDocument> => create(args.booking, context.user),
-  editBooking: (obj: any, args: { id: string; booking: Optional<IBooking> }): Promise<IBookingDocument> => edit(args.id, args.booking),
-  removeBooking: (obj: any, args: { id: string }, context: { user: IUser }): Promise<IBookingDocument> => remove(args.id, context.user),
+  createBooking: (source, args: { booking: IBookingInput }, context: { user: IUser }): Promise<IBookingDocument> => create(args.booking, context.user),
+  editBooking: (source, args: { id: string; booking: Optional<IBooking> }): Promise<IBookingDocument> => edit(args.id, args.booking),
+  removeBooking: (source, args: { id: string }, context: { user: IUser }): Promise<IBookingDocument> => remove(args.id, context.user),
 };
