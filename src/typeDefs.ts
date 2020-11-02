@@ -172,7 +172,7 @@ export default gql`
     priceFrom: String
     priceTo: String
     variant: String
-    rooms: String
+    roomsCount: String
     startDate: String
     endDate: String
     sortByPrice: String

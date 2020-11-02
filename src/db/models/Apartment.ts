@@ -43,7 +43,7 @@ const schema = new mongoose.Schema(
     },
     bookings: [{ type: ID, ref: 'Booking', autopopulate: true }],
   },
-  { versionKey: false },
+  { versionKey: false }
 );
 
 schema.plugin(require('mongoose-autopopulate'));
@@ -56,15 +56,16 @@ schema.statics.getSorts = function getSorts(query: types.ApartmentQuery): types.
 
 schema.statics.getFilters = function getFilters(query: types.ApartmentQuery): types.IFilters {
   return {
-    rooms: (arg: string): types.ApartmentQuery => query.where('roomsCount').equals(+arg),
+    roomsCount: (arg: string): types.ApartmentQuery => query.where('roomsCount').equals(+arg),
     startDate: async (searchParams: types.ISearchParams): Promise<types.ApartmentQuery> => {
       const newQuery = await models.apartment.find();
       const filteredIDs = newQuery.map((doc: IApartmentDocument) => {
         const some = doc.bookings.some(
-          (docBooking) => isDateBetween(docBooking.startDate, docBooking.endDate, searchParams.startDate)
-            || isDateBetween(docBooking.startDate, docBooking.endDate, searchParams.endDate)
-            || isDateBetween(searchParams.startDate, searchParams.endDate, docBooking.startDate)
-            || isDateBetween(searchParams.startDate, searchParams.endDate, docBooking.endDate),
+          (docBooking) =>
+            isDateBetween(docBooking.startDate, docBooking.endDate, searchParams.startDate) ||
+            isDateBetween(docBooking.startDate, docBooking.endDate, searchParams.endDate) ||
+            isDateBetween(searchParams.startDate, searchParams.endDate, docBooking.startDate) ||
+            isDateBetween(searchParams.startDate, searchParams.endDate, docBooking.endDate)
         );
         return !some ? doc._id : undefined;
       });

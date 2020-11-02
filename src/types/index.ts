@@ -12,7 +12,7 @@ export interface ISearchParams {
   priceFrom: string;
   priceTo: string;
   variant: string;
-  rooms: string;
+  roomsCount: string;
   startDate: string;
   endDate: string;
   sortByPrice: string;
@@ -27,13 +27,28 @@ export interface IUser {
   role: string;
 }
 
-export interface IBookingInput { apartment: string; buyer: string; startDate: Date; endDate: Date }
+export interface IBookingInput {
+  apartment: string;
+  buyer: string;
+  startDate: Date;
+  endDate: Date;
+}
 
-export interface IOrderInput { voucher: string; buyer: string; quantity: number }
+export interface IOrderInput {
+  voucher: string;
+  buyer: string;
+  quantity: number;
+}
 
-export interface IAuthUser { token: string; user: IUserDocument }
+export interface IAuthUser {
+  token: string;
+  user: IUserDocument;
+}
 
-export interface IContext { auth: string; operationName: string }
+export interface IContext {
+  auth: string;
+  operationName: string;
+}
 
 export type ApartmentQuery = DocumentQuery<IApartmentDocument[], IApartmentDocument, {}>;
 
